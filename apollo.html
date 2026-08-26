@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apollo — borrowing and lending on Robinhood Chain</title>
+<meta name="description" content="Your portfolio is idle. Not for long. 5,000 keys mint before Apollo opens.">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(-34,-35.5) scale(1.2)' fill='none' stroke='%23D4FF3D' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke-width='5.4' d='M44 44h52'/%3E%3Cpath stroke-width='5.8' d='M55 85C51 70 48 56 47 45c-1-6-5-9-8-6'/%3E%3Cpath stroke-width='5.8' d='M85 85c4-15 7-29 8-40 1-6 5-9 8-6'/%3E%3Cpath stroke-width='5.8' d='M53 84c0 15 7 22 17 22s17-7 17-22'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:title" content="Apollo — not open yet">
+<meta property="og:description" content="Your portfolio is idle. Not for long.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://apollo.finance/">
+<meta property="og:image" content="https://apollo.finance/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Apollo — borrowing and lending on Robinhood Chain">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Apollo — not open yet">
+<meta name="twitter:description" content="Your portfolio is idle. Not for long.">
+<meta name="twitter:image" content="https://apollo.finance/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F4F1; --card:#FFFFFF; --line:#E4E4DE;
+  --fg:#111110; --dim:#6E6E6A; --mute:#6F6F66;
+  --dark:#141413; --dark-2:#1F1F1D;
+  --lime:#D4FF3D; --lime-ink:#5A7500;
+  --r:18px; --gut:clamp(18px,4vw,40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--lime);color:#000}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:4px}
+.shell{max-width:1180px;margin:0 auto;padding-inline:var(--gut);
+  padding-bottom:clamp(40px,7vw,80px)}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.dots{background-image:radial-gradient(rgba(17,17,16,.07) 1px,transparent 1px);
+  background-size:14px 14px}
+.dots-dk{background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);
+  background-size:14px 14px}
+
+/* banner */
+.banner{background:var(--lime);color:#000;display:flex;align-items:center;justify-content:center;
+  gap:10px;padding:9px 44px 9px 16px;position:relative;font-size:13.5px;font-weight:500;text-align:center}
+.banner a{color:inherit;display:inline-flex;gap:6px}
+.banner b{font-weight:500;border-bottom:1px solid rgba(0,0,0,.45)}
+.banner .x{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;
+  border:0;color:#000;font-size:17px;line-height:1;cursor:pointer;opacity:.55;padding:4px}
+.banner .x:hover{opacity:1}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:11px;font-family:Newsreader,Georgia,serif;
+  font-size:20px;text-transform:uppercase;letter-spacing:.24em;text-indent:.24em;line-height:1}
+.brand svg{width:30px;height:30px;flex:none;color:var(--fg)}
+.tabs{display:flex;gap:2px;background:#EAEAE5;border-radius:999px;padding:5px}
+.tabs a{padding:8px 16px;border-radius:999px;font-size:14px;color:var(--dim);
+  display:flex;align-items:center;gap:7px}
+.tabs a.on{background:var(--card);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.07)}
+.tabs a:not(.on):hover{color:var(--fg)}
+.tab-soon{display:flex;align-items:center;padding:8px 16px;border-radius:999px;
+  font-size:14px;color:var(--mute);cursor:default;user-select:none;
+  transition:background .22s ease,color .22s ease}
+.tab-soon:hover,.tab-soon:focus-visible{background:#DEDED8;color:var(--dim)}
+.swap{display:inline-grid;overflow:hidden;line-height:1.42}
+.swap i{grid-area:1/1;font-style:normal;
+  transition:transform .32s cubic-bezier(.65,0,.25,1),opacity .22s ease}
+.swap i:last-child{transform:translateY(108%);opacity:0;color:var(--lime-ink)}
+.tab-soon:hover .swap i:first-child,.tab-soon:focus-visible .swap i:first-child{
+  transform:translateY(-108%);opacity:0}
+.tab-soon:hover .swap i:last-child,.tab-soon:focus-visible .swap i:last-child{
+  transform:translateY(0);opacity:1}
+.cta{display:inline-flex;align-items:center;gap:9px;background:var(--fg);color:#fff;border:0;
+  border-radius:999px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:500;
+  cursor:pointer;transition:background .18s,color .18s}
+.cta:hover{background:var(--lime);color:#000}
+.cta svg{width:14px;height:14px;fill:currentColor}
+@media(max-width:860px){.tabs{display:none}}
+
+/* hero — dark panel on the light page */
+.hero{--hp:clamp(20px,5vw,56px);border-radius:var(--r);background:var(--dark);color:#fff;
+  padding:clamp(48px,8vw,84px) var(--hp) 0;position:relative;overflow:hidden;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:9px;background:var(--dark-2);border-radius:999px;
+  padding:8px 16px;font-size:13.5px;color:#D6D6D6;position:relative;z-index:2}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--lime);
+  box-shadow:0 0 0 0 rgba(212,255,61,.55);animation:p 2.4s ease-out infinite}
+@keyframes p{70%{box-shadow:0 0 0 8px rgba(212,255,61,0)}100%{box-shadow:0 0 0 0 rgba(212,255,61,0)}}
+.hero h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(38px,7.2vw,76px);
+  line-height:1.04;letter-spacing:-.02em;margin:26px auto 0;max-width:16ch;position:relative;z-index:2}
+.hero h1 span{color:var(--lime)}
+.hero p{margin:20px auto 0;max-width:52ch;color:#9A9A96;font-size:16px;position:relative;z-index:2}
+.clock{display:inline-flex;gap:22px;margin:30px 0 0;position:relative;z-index:2;
+  font-variant-numeric:tabular-nums}
+.clock div{display:flex;flex-direction:column;gap:3px}
+.clock b{font-size:22px;font-weight:400;letter-spacing:-.01em}
+.clock i{font-style:normal;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8C8C88}
+
+/* horizon — first light behind the ridges */
+.horizon{display:block;position:relative;z-index:2;
+  width:calc(100% + var(--hp) * 2);margin-left:calc(var(--hp) * -1);
+  margin-top:clamp(26px,4vw,44px)}
+
+/* section header */
+.grid-head{margin:clamp(54px,8vw,88px) 0 20px}
+.grid-head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:12.5px;color:var(--dim)}
+.grid-head .eyebrow .dot{background:var(--lime-ink);box-shadow:0 0 0 0 rgba(90,117,0,.4);
+  animation:pl 2.4s ease-out infinite}
+@keyframes pl{70%{box-shadow:0 0 0 8px rgba(90,117,0,0)}100%{box-shadow:0 0 0 0 rgba(90,117,0,0)}}
+.grid-head h2{font-family:Newsreader,Georgia,serif;font-weight:400;
+  font-size:clamp(15px,4.6vw,46px);line-height:1.1;letter-spacing:-.02em;
+  margin:18px 0 0;white-space:nowrap}
+.grid-head h2 span{color:var(--lime-ink)}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.card .art{border-radius:var(--r);background:var(--dark);border:1px solid #26261F;
+  box-shadow:0 1px 2px rgba(17,17,16,.06);height:240px;display:flex;
+  align-items:center;justify-content:center;padding:24px;overflow:hidden}
+.card h3{font-size:17px;font-weight:500;margin:20px 0 8px}
+.card p{margin:0;color:var(--dim);font-size:14.5px;max-width:34ch}
+
+.supply{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;width:100%;max-width:212px}
+.supply i{aspect-ratio:1;border-radius:2px;background:#2B2B29;
+  transition:background .6s ease,box-shadow .6s ease}
+.supply i.on{background:var(--lime);box-shadow:0 0 10px rgba(212,255,61,.35)}
+
+.when{display:flex;flex-direction:column;align-items:center;gap:22px}
+.gate{position:relative;width:100%;max-width:216px;height:112px;
+  border-radius:7px;overflow:hidden;isolation:isolate}
+.gate .beam{position:absolute;inset:0;background:var(--lime)}
+.gate .leaf{position:absolute;top:0;bottom:0;width:41%;background:#242422;
+  box-shadow:0 0 26px 10px rgba(212,255,61,.30)}
+.gate .leaf.l{left:0;animation:shut 5.5s cubic-bezier(.5,0,.5,1) infinite alternate}
+.gate .leaf.r{right:0;animation:shut 5.5s cubic-bezier(.5,0,.5,1) infinite alternate}
+@keyframes shut{from{width:38%}to{width:48.2%}}
+.gate::after{content:"";position:absolute;inset:-40%;pointer-events:none;
+  background:radial-gradient(ellipse 22% 60% at 50% 50%,rgba(212,255,61,.55),transparent 70%);
+  animation:bloom 5.5s cubic-bezier(.5,0,.5,1) infinite alternate}
+@keyframes bloom{from{opacity:.85}to{opacity:.32}}
+.when .cap{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8C8C88}
+
+.bars{display:flex;align-items:flex-end;gap:9px;height:132px}
+.bars span{width:24px;border-radius:5px 5px 0 0;background:#2B2B29;
+  transform-origin:bottom;animation:breathe 3.8s ease-in-out infinite alternate}
+.bars span:nth-child(2){animation-delay:.22s}.bars span:nth-child(3){animation-delay:.44s}
+.bars span:nth-child(4){animation-delay:.66s}.bars span:nth-child(5){animation-delay:.88s}
+@keyframes breathe{from{transform:scaleY(.68)}to{transform:scaleY(1)}}
+.bars span.hot{background:var(--lime);box-shadow:0 0 14px rgba(212,255,61,.32);
+  animation:breatheHot 3.8s ease-in-out infinite alternate}
+@keyframes breatheHot{from{transform:scaleY(.9)}to{transform:scaleY(1)}}
+.feewrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.feewrap .cap{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8C8C88}
+.feewrap .cap b{color:var(--lime);font-weight:500}
+
+/* closer — the second dark panel */
+.closer{margin-top:clamp(38px,6vw,64px);border-radius:var(--r);background:var(--dark);
+  color:#fff;text-align:center;padding:clamp(46px,7vw,80px) clamp(22px,5vw,56px)}
+.closer .lead{margin:0;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:#8C8C88}
+.clock.big{margin-top:16px;gap:clamp(16px,3.6vw,34px)}
+.clock.big b{font-size:clamp(32px,5.6vw,52px);color:var(--lime);letter-spacing:-.02em}
+.clock.big i{color:#7C7C78;font-size:10px}
+.closer .date{margin:22px 0 0;font-size:14px;color:#9A9A96}
+.closer .date b{color:#fff;font-weight:500}
+.closer .cta{margin-top:26px;padding:14px 26px;font-size:15px;background:#fff;color:#000}
+.closer .cta:hover{background:var(--lime)}
+
+
+
+/* whitelist — signup, points, referral */
+.wl{margin-top:clamp(38px,6vw,64px);border-radius:var(--r);background:var(--dark);color:#fff;
+  padding:clamp(40px,6.5vw,72px) clamp(22px,5vw,56px);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);
+  gap:clamp(30px,5vw,72px);align-items:start}
+@media(max-width:900px){.wl{grid-template-columns:1fr}}
+.wl .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--dark-2);
+  border-radius:999px;padding:7px 15px;font-size:12.5px;color:#D6D6D6}
+.wl h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4.4vw,44px);
+  line-height:1.06;letter-spacing:-.02em;margin:18px 0 0;max-width:13ch}
+.wl h2 span{color:var(--lime)}
+.wl .lede{margin:16px 0 0;color:#9A9A96;max-width:38ch;font-size:14.5px}
+.earn{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
+.earn li{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid #262624}
+.earn li:last-child{border-bottom:1px solid #262624}
+.earn b{font-family:Newsreader,Georgia,serif;font-size:20px;color:var(--lime);min-width:52px}
+.earn span{color:#B8B8B3;font-size:13.5px}
+
+.wlcard{background:var(--dark-2);border:1px solid #2A2A28;border-radius:14px;
+  padding:clamp(22px,3vw,32px)}
+
+.consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;
+  margin:14px 2px 20px;user-select:none}
+.consent input{position:absolute;opacity:0;width:1px;height:1px}
+.consent .box{flex:none;width:14px;height:14px;margin-top:2px;border-radius:4px;
+  border:1px solid #333331;background:transparent;position:relative;transition:background .15s,border-color .15s}
+.consent .box::after{content:"";position:absolute;left:4px;top:1px;width:3px;height:6px;
+  border:solid #000;border-width:0 1.6px 1.6px 0;transform:rotate(45deg);opacity:0;transition:opacity .1s}
+.consent input:checked + .box{background:var(--lime);border-color:var(--lime)}
+.consent input:checked + .box::after{opacity:1}
+.consent input:focus-visible + .box{outline:2px solid var(--lime);outline-offset:2px}
+.consent .txt{font-size:11.5px;line-height:1.45;color:#77776F}
+.consent:hover .txt{color:#8C8C84}
+
+.btn-x{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:#fff;color:#000;border:0;border-radius:999px;padding:14px;
+  font-family:inherit;font-size:14.5px;font-weight:500;cursor:pointer;transition:background .18s}
+.btn-x:hover{background:var(--lime)}
+.btn-x svg{width:15px;height:15px;fill:currentColor}
+.or{display:flex;align-items:center;gap:12px;color:#5C5C58;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:#2A2A28}
+.field{display:flex;background:#141413;border-radius:999px;padding:5px 5px 5px 6px;
+  border:1px solid #2A2A28;transition:border-color .18s}
+.field:focus-within{border-color:#4A4A46}
+.field input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;
+  font-family:inherit;font-size:14px;padding:9px 14px}
+.field input::placeholder{color:#5C5C58}
+.field button{background:var(--lime);color:#000;border:0;border-radius:999px;padding:0 18px;
+  font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
+.field button:hover{background:#fff}
+.refline{margin:14px 0 0}
+.wlcard > .refline.entry:first-child{margin-top:0;margin-bottom:20px;
+  padding-bottom:20px;border-bottom:1px solid #262624}
+.consent-email{margin-top:10px}
+.refline label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:#7C7C78;margin-bottom:8px}
+.note{margin:12px 0 0;font-size:12px;min-height:1.4em;letter-spacing:.02em}
+.note[data-t="err"]{color:#FF8A7A}
+.note[data-t="ok"]{color:var(--lime)}
+.note[data-t="ref"]{color:#B8B8B3}
+
+/* receipt — post-signup state */
+.receipt{display:none}
+.wlcard.is-done .btn-x,.wlcard.is-done .or,.wlcard.is-done .field.email,
+.wlcard.is-done .refline.entry,.wlcard.is-done .note,.wlcard.is-done .consent,
+.wlcard.is-done .consent-email{display:none}
+.wlcard.is-done .receipt{display:block;animation:fadeUp .5s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.rrow{display:flex;justify-content:space-between;align-items:baseline;
+  padding:13px 0;border-top:1px solid #2A2A28}
+.rrow:first-child{border-top:0;padding-top:0}
+.rrow span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7C7C78}
+.rrow b{font-family:Newsreader,Georgia,serif;font-size:26px;color:#fff;font-weight:400}
+.rrow b.lime{color:var(--lime)}
+.codebox{display:flex;margin-top:8px;background:#141413;border:1px solid #2A2A28;
+  border-radius:999px;padding:5px 5px 5px 16px;align-items:center;gap:10px}
+.codebox code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-family:inherit;font-size:14px;letter-spacing:.03em;color:var(--lime)}
+.codebox button{flex:none;background:#242422;color:#D6D6D6;border:0;border-radius:999px;
+  padding:9px 16px;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
+  transition:background .18s,color .18s}
+.codebox button:hover{background:var(--lime);color:#000}
+.editcode{display:flex;gap:8px;margin-top:8px}
+.editcode input{flex:1;min-width:0;background:#141413;border:1px solid #2A2A28;border-radius:999px;
+  color:#fff;font-family:inherit;font-size:13.5px;padding:9px 16px;outline:0}
+.editcode input:focus{border-color:#4A4A46}
+.editcode button{flex:none;background:#242422;color:#D6D6D6;border:0;border-radius:999px;
+  padding:9px 16px;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer}
+.editcode button:hover{background:var(--lime);color:#000}
+.custom-toggle{background:none;border:0;color:#7C7C78;font-family:inherit;font-size:11.5px;
+  letter-spacing:.04em;cursor:pointer;padding:0;margin-top:8px;text-decoration:underline;
+  text-underline-offset:3px;text-decoration-color:#3A3A38}
+.custom-toggle:hover{color:#D6D6D6}
+
+.sharebox{margin-top:22px;padding-top:18px;border-top:1px solid #2A2A28}
+.sharebox label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:#7C7C78;margin-bottom:6px}
+.sharehint{margin:0 0 14px;font-size:12.5px;color:#8C8C88;line-height:1.5}
+.sharebox .btn-x{padding:12px}
+.postdone{display:none;margin-top:12px;font-size:13px;color:var(--lime);
+  display:none;align-items:center;gap:8px}
+.postdone .check{display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;background:var(--lime);color:#000;
+  font-size:11px;flex:none}
+.sharebox.is-verified .btn-x,.sharebox.is-verified .field,
+.sharebox.is-verified .sharehint,.sharebox.is-verified .note{display:none}
+.sharebox.is-verified .postdone{display:flex}
+.modal-card.is-verified .btn-x,.modal-card.is-verified .field,
+.modal-card.is-verified .modal-copy,.modal-card.is-verified .note{display:none}
+.modal-card.is-verified .postdone{display:flex}
+
+
+
+/* leaderboard */
+.lb{margin-top:16px;border-radius:var(--r);background:var(--dark);color:#fff;
+  padding:clamp(36px,6vw,60px) clamp(22px,5vw,56px) clamp(10px,2vw,20px)}
+.lb-head{text-align:center;margin-bottom:clamp(24px,4vw,40px)}
+.lb-head h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(26px,4vw,40px);
+  line-height:1.06;letter-spacing:-.02em;margin:16px 0 0}
+.lb-head h2 span{color:var(--lime)}
+.lb-head .lede{margin:14px auto 0;max-width:38ch;color:#9A9A96;font-size:14px}
+.lbtable{max-width:640px;margin:0 auto;border-top:1px solid #262624}
+.lbrow{display:grid;grid-template-columns:44px 1fr 90px 76px;align-items:center;
+  gap:10px;padding:13px 4px;border-bottom:1px solid #262624;font-size:13.5px}
+.lbrow.lbhead{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:#6E6E6A;padding-bottom:11px}
+.lbrow .rk{font-family:Newsreader,Georgia,serif;font-size:16px;color:#8C8C88}
+.lbrow.top3 .rk{color:var(--lime)}
+.lbrow .who{display:flex;align-items:center;gap:9px;overflow:hidden}
+.lbrow .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#D6D6D6}
+.lbrow .who i{width:6px;height:6px;border-radius:50%;background:#3A3A38;flex:none}
+.lbrow.top3 .who i{background:var(--lime)}
+.lbrow .refs{color:#8C8C88;font-variant-numeric:tabular-nums}
+.lbrow .pts{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.lbrow.me{background:rgba(212,255,61,.06);border-radius:8px}
+.lbrow.me .who span{color:var(--lime)}
+.lb-foot{text-align:center;padding:18px 0 4px;font-size:11.5px;color:#5C5C58}
+
+/* share-to-earn popup */
+.modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;
+  justify-content:center;padding:20px;background:rgba(0,0,0,.68);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  animation:overlayIn .22s ease}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.modal-card{position:relative;width:100%;max-width:420px;background:var(--dark);
+  border:1px solid #2A2A28;border-radius:var(--r);color:#fff;text-align:center;
+  padding:clamp(28px,5vw,40px) clamp(22px,4.5vw,32px) clamp(24px,4vw,32px);
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  animation:modalIn .28s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;
+  background:var(--dark-2);border:1px solid #2A2A28;color:#8C8C88;font-size:17px;line-height:1;
+  cursor:pointer;transition:background .15s,color .15s}
+.modal-close:hover{background:#242422;color:#fff}
+.modal-card .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--dark-2);
+  border-radius:999px;padding:7px 15px;font-size:12.5px;color:#D6D6D6}
+.modal-card h3{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(24px,4vw,32px);
+  line-height:1.1;letter-spacing:-.02em;margin:16px 0 0}
+.modal-card h3 span{color:var(--lime)}
+.modal-copy{margin:12px 0 0;color:#9A9A96;font-size:13.5px;line-height:1.5}
+.modal-card .btn-x{width:100%;margin-top:22px;padding:14px}
+.modal-skip{display:block;margin:16px auto 0;background:none;border:0;color:#6E6E6A;
+  font-family:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:#333331;cursor:pointer}
+.modal-skip:hover{color:#9A9A96}
+.modal-card .postdone{justify-content:center}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lyre" viewBox="0 0 100 100">
+<g transform="translate(-34,-35.5) scale(1.2)">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="3.1" opacity=".72">
+      <path d="M58 47v37"/><path d="M64 47v37"/><path d="M70 47v37"/>
+      <path d="M76 47v37"/><path d="M82 47v37"/>
+    </g>
+    <path stroke-width="5.4" d="M44 44h52"/>
+    <path stroke-width="5.8" d="M55 85C51 70 48 56 47 45c-1-6-5-9-8-6"/>
+    <path stroke-width="5.8" d="M85 85c4-15 7-29 8-40 1-6 5-9 8-6"/>
+    <path stroke-width="5.8" d="M53 84c0 15 7 22 17 22s17-7 17-22"/>
+  </g>
+  </g>
+  </symbol>
+</svg>
+
+
+<!-- share-to-earn popup: fires right after a fresh join, lives outside
+     both view containers so it isn't affected by their display toggling -->
+<div class="modal-overlay" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" style="display:none">
+  <div class="modal-card">
+    <button class="modal-close" id="shareModalClose" type="button" aria-label="Close">×</button>
+    <span class="eyebrow"><span class="dot"></span> Bonus unlocked</span>
+    <h3 id="shareModalTitle">Earn <span>300 more points.</span></h3>
+    <p class="modal-copy">Post it on X, paste the link back here, and we'll check it automatically.</p>
+
+    <a class="btn-x" id="modalIntent" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
+      Post on X
+    </a>
+
+    <div class="field" style="margin-top:14px">
+      <label for="modalPostUrl" class="sr">Link to your post</label>
+      <input id="modalPostUrl" type="url" placeholder="https://x.com/you/status/..." autocomplete="off" spellcheck="false">
+      <button id="modalVerify" type="button">Verify</button>
+    </div>
+    <p class="note" id="modalNote" role="status" aria-live="polite"></p>
+    <div class="postdone" id="modalDone"><span class="check" aria-hidden="true">✓</span> Verified — 300 points added.</div>
+
+    <button class="modal-skip" id="shareModalSkip" type="button">I'll do this later</button>
+  </div>
+</div>
+
+
+<div class="banner" id="banner">
+  <a href="#whitelist" data-view="whitelist">✳︎ Whitelist is open — <b>earn points, invite friends.</b></a>
+  <button class="x" id="closeBanner" aria-label="Dismiss">×</button>
+</div>
+
+<div class="shell">
+
+  <nav class="nav">
+    <a class="brand" href="#top">
+      <svg aria-hidden="true"><use href="#lyre"/></svg>
+      Apollo
+    </a>
+    <div class="tabs">
+      <a class="on" href="#top" data-view="overview">Overview</a>
+      <a href="#whitelist" data-view="whitelist">Whitelist</a>
+      <span class="tab-soon" tabindex="0" aria-label="Docs — coming soon"><span class="swap"><i>Docs</i><i aria-hidden="true">Soon</i></span></span>
+    </div>
+    <a class="cta" id="topCta" href="#whitelist" data-view="whitelist">Log in</a>
+  </nav>
+
+  <main id="top">
+
+  <div id="view-overview">
+
+    <section class="hero dots-dk">
+      <span class="badge"><span class="dot"></span> Launching on Robinhood Chain</span>
+      <h1>Your portfolio is idle. <span>Not for long.</span></h1>
+      <p>Borrowing and lending for tokenized stocks. Opening soon.</p>
+
+      <p class="sr">Mint opens <b data-mint-long>—</b></p>
+      <div class="clock" id="clock" aria-hidden="true">
+        <div><b data-c="d">––</b><i>days</i></div>
+        <div><b data-c="h">––</b><i>hrs</i></div>
+        <div><b data-c="m">––</b><i>min</i></div>
+        <div><b data-c="s">––</b><i>sec</i></div>
+      </div>
+
+      <svg class="horizon" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D4FF3D" stop-opacity="0"/>
+            <stop offset=".38" stop-color="#D4FF3D" stop-opacity=".035"/>
+            <stop offset=".62" stop-color="#D4FF3D" stop-opacity=".13"/>
+            <stop offset=".85" stop-color="#D4FF3D" stop-opacity=".03"/>
+            <stop offset="1" stop-color="#D4FF3D" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="glint" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#D4FF3D" stop-opacity="0"/>
+            <stop offset=".22" stop-color="#D4FF3D" stop-opacity=".30"/>
+            <stop offset=".52" stop-color="#D4FF3D" stop-opacity=".85"/>
+            <stop offset=".74" stop-color="#D4FF3D" stop-opacity=".28"/>
+            <stop offset="1" stop-color="#D4FF3D" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="150" fill="url(#dawn)"/>
+
+        <path d="M0 80 C180 48 300 98 470 76 S760 36 900 72 S1090 98 1200 64 L1200 150 L0 150Z" fill="#272727"/>
+        <path d="M0 80 C180 48 300 98 470 76 S760 36 900 72 S1090 98 1200 64"
+              fill="none" stroke="url(#glint)" stroke-width="1.6"
+              vector-effect="non-scaling-stroke"/>
+
+        <path d="M0 106 C250 84 430 124 640 104 S980 84 1200 110 L1200 150 L0 150Z" fill="#1A1A1A"/>
+        <path d="M0 130 C300 114 520 142 760 128 S1050 118 1200 134 L1200 150 L0 150Z" fill="#0E0E0E"/>
+      </svg>
+    </section>
+
+    <header class="grid-head" id="mint">
+      <span class="eyebrow"><span class="dot"></span> The mint</span>
+      <h2>There will only ever be <span>5,000 keys.</span></h2>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <div class="art dots-dk">
+          <div class="supply" id="supply" aria-hidden="true"></div>
+        </div>
+        <h3>5,000 NFTs</h3>
+        <p>Each one is a key to the protocol.</p>
+      </article>
+
+      <article class="card">
+        <div class="art dots-dk">
+          <div class="when">
+            <div class="gate" aria-hidden="true">
+              <span class="beam"></span><span class="leaf l"></span><span class="leaf r"></span>
+            </div>
+            <div class="cap">The window closes</div>
+          </div>
+        </div>
+        <h3>One mint window</h3>
+        <p>Keys mint on a single day. No phases, no second round.</p>
+      </article>
+
+      <article class="card">
+        <div class="art dots-dk">
+          <div class="feewrap">
+            <div class="bars">
+              <span style="height:34%"></span><span style="height:52%"></span>
+              <span style="height:43%"></span><span style="height:64%"></span>
+              <span class="hot" style="height:100%"></span>
+            </div>
+            <span class="cap">Fees to holders · <b>5%</b></span>
+          </div>
+        </div>
+        <h3>Earn a share of fees</h3>
+        <p>5% of protocol fees, split across 5,000 keys.</p>
+      </article>
+    </section>
+
+    <section class="closer dots-dk">
+      <p class="lead">NFTs go live in</p>
+      <div class="clock big" aria-hidden="true">
+        <div><b data-c="d">––</b><i>days</i></div>
+        <div><b data-c="h">––</b><i>hrs</i></div>
+        <div><b data-c="m">––</b><i>min</i></div>
+        <div><b data-c="s">––</b><i>sec</i></div>
+      </div>
+      <p class="date"><b data-mint-long>—</b></p>
+
+      <a class="cta" href="https://x.com/apollofinance" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
+        Follow for the mint link
+      </a>
+    </section>
+
+  </div>
+
+  <div id="view-whitelist" style="display:none">
+
+    <section class="wl dots-dk" id="whitelist">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Whitelist open</span>
+        <h2>Earn your <span>spot.</span></h2>
+        <p class="lede">Join the list, then invite people. Points decide who mints first when the window opens.</p>
+
+        <ul class="earn">
+          <li><b>+100</b><span>For joining the whitelist</span></li>
+          <li><b>+50</b><span>For every friend who joins with your code</span></li>
+          <li><b>+50</b><span>For you, if you join using a friend's code</span></li>
+          <li><b>+300</b><span>For posting your referral link on X</span></li>
+        </ul>
+      </div>
+
+      <div class="wlcard" id="wlcard">
+        <div class="refline entry">
+          <label for="wlRef">Referral code (optional)</label>
+          <div class="field">
+            <label for="wlRef" class="sr">Referral code</label>
+            <input id="wlRef" type="text" placeholder="e.g. APOLLO-J4K1" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+
+        <button class="btn-x" id="btnX" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
+          Connect X
+        </button>
+
+        <div class="or">or</div>
+
+        <div class="field email">
+          <label for="wlEmail" class="sr">Email</label>
+          <input id="wlEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" spellcheck="false">
+          <button id="btnEmail" type="button">Join</button>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="wlConsent">
+          <span class="box" aria-hidden="true"></span>
+          <span class="txt">Email me product updates and the mint date. Unsubscribe anytime.</span>
+        </label>
+        <div class="field consent-email" id="consentEmailWrap" style="display:none">
+          <label for="consentEmail" class="sr">Email for updates</label>
+          <input id="consentEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" spellcheck="false">
+        </div>
+
+        <p class="note" id="wlNote" role="status" aria-live="polite"></p>
+
+        <div class="receipt" id="wlReceipt">
+          <div class="rrow"><span>Rank</span><b class="lime" id="rRank">—</b></div>
+          <div class="rrow"><span>Points</span><b id="rPts">0</b></div>
+
+          <div class="refline">
+            <label>Your referral link</label>
+            <div class="codebox">
+              <code id="rCode">apollo.finance/?ref=APOLLO</code>
+              <button id="btnCopy" type="button">Copy</button>
+            </div>
+            <button class="custom-toggle" id="btnCustom" type="button">Set a custom code</button>
+            <div class="editcode" id="editCode" style="display:none">
+              <input id="customCode" type="text" placeholder="YOURNAME" maxlength="16" autocomplete="off" spellcheck="false">
+              <button id="btnSaveCode" type="button">Save</button>
+            </div>
+          </div>
+
+          <div class="rrow"><span>Referrals</span><b id="rRefs">0</b></div>
+
+          <div class="sharebox" id="sharebox">
+            <label>Post it, earn 300</label>
+            <p class="sharehint">Share your link on X, then paste the post back here. We check it contains your link before crediting the points.</p>
+            <a class="btn-x" id="btnIntent" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
+              Post about Apollo
+            </a>
+            <div class="field" style="margin-top:12px">
+              <label for="postUrl" class="sr">Link to your post</label>
+              <input id="postUrl" type="url" placeholder="https://x.com/you/status/..." autocomplete="off" spellcheck="false">
+              <button id="btnVerify" type="button">Verify</button>
+            </div>
+            <p class="note" id="postNote" role="status" aria-live="polite"></p>
+            <div class="postdone" id="postDone">
+              <span class="check" aria-hidden="true">✓</span> Verified — 300 points added.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lb dots-dk" id="leaderboard">
+      <div class="lb-head">
+        <span class="eyebrow"><span class="dot"></span> Leaderboard</span>
+        <h2>Top of the <span>list.</span></h2>
+        <p class="lede">Ranked by points. Highest points mint first when the window opens.</p>
+      </div>
+      <div class="lbtable" id="lbTable">
+        <div class="lbrow lbhead"><span>Rank</span><span>Member</span><span>Referrals</span><span>Points</span></div>
+      </div>
+      <p class="lb-foot">Updated live as people join and refer friends.</p>
+    </section>
+
+  </div>
+
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ── the only things you need to change ──
+     MINT: your mint date/time.
+     SUPABASE_URL / SUPABASE_ANON_KEY: Settings → API in your Supabase
+     project. The anon key is safe to expose here — it has no power on
+     its own; Row Level Security in schema.sql is what actually decides
+     what it's allowed to touch. */
+  var MINT = new Date("2026-09-30T14:00:00Z");
+  var SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+  var SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
+
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* mint date, long form */
+  var long = MINT.toLocaleDateString("en-GB",{day:"numeric",month:"long",timeZone:"UTC"}) +
+             " · " + String(MINT.getUTCHours()).padStart(2,"0") + ":" +
+             String(MINT.getUTCMinutes()).padStart(2,"0") + " UTC";
+
+  document.querySelectorAll("[data-mint-long]").forEach(function(el){ el.textContent = long; });
+
+
+  /* supply grid — keys getting claimed, then released */
+  var CELLS = 60, LIT = 7, supply = document.getElementById("supply"), html = "";
+  for (var i = 0; i < CELLS; i++) html += "<i></i>";
+  supply.innerHTML = html;
+
+  function claim(){
+    var cells = supply.children, pick = {}, k;
+    while (Object.keys(pick).length < LIT) pick[Math.floor(Math.random() * CELLS)] = 1;
+    for (k = 0; k < CELLS; k++) cells[k].className = pick[k] ? "on" : "";
+  }
+  claim();
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(claim, 2200);
+
+
+  /* ── view switch: Overview / Whitelist act as separate pages ── */
+  (function(){
+    var views = { overview: document.getElementById("view-overview"),
+                  whitelist: document.getElementById("view-whitelist") };
+    var tabs = document.querySelectorAll('[data-view]');
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function show(name){
+      if (!views[name]) name = "overview";
+      views.overview.style.display  = name === "overview"  ? "" : "none";
+      views.whitelist.style.display = name === "whitelist" ? "" : "none";
+      tabs.forEach(function(t){ t.classList.toggle("on", t.dataset.view === name); });
+    }
+
+    function go(name, push){
+      show(name);
+      if (push) history.pushState(null, "", name === "whitelist" ? "#whitelist" : "#top");
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    }
+
+    tabs.forEach(function(t){
+      t.addEventListener("click", function(e){
+        e.preventDefault();
+        go(t.dataset.view, true);
+      });
+    });
+
+    window.addEventListener("popstate", function(){
+      show(location.hash === "#whitelist" ? "whitelist" : "overview");
+    });
+
+    show(location.hash === "#whitelist" ? "whitelist" : "overview");
+  })();
+
+  /* banner */
+  document.getElementById("closeBanner").onclick = function(){
+    document.getElementById("banner").remove();
+  };
+
+
+  /* ── whitelist: real Supabase-backed signup, points, referrals,
+     leaderboard, and share-to-earn. Every write here goes through
+     the functions in schema.sql — this file never computes points,
+     rank, or referral counts itself; it only ever displays what the
+     database says. See schema.sql for what actually enforces the
+     rules (one signup bonus, no self-referral, etc). */
+  (function(){
+    var card    = document.getElementById("wlcard"),
+        note    = document.getElementById("wlNote"),
+        email   = document.getElementById("wlEmail"),
+        refIn   = document.getElementById("wlRef"),
+        myCode  = "";
+
+    function say(t, tone){ note.textContent = t; note.setAttribute("data-t", tone || ""); }
+
+    /* prefill the referral field from ?ref=CODE in the URL */
+    var qref = new URLSearchParams(location.search).get("ref");
+    if (qref){
+      refIn.value = qref.toUpperCase();
+      say("Invited by " + qref.toUpperCase() + " — you'll both get bonus points.", "ref");
+    }
+
+    /* the intent link always carries the CURRENT code, so it stays
+       correct even after a custom code change. Two places show it —
+       the receipt's inline button and the popup — so they're kept
+       in sync from one function rather than duplicated. */
+    function updateIntentLink(){
+      var link = "https://apollo.finance/?ref=" + myCode;
+      var text = "Apollo is bringing lending onchain for tokenized stocks on Robinhood Chain. Whitelist is open — " + link;
+      var href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+      document.getElementById("btnIntent").href = href;
+      document.getElementById("modalIntent").href = href;
+    }
+
+    /* the subscribe-email field: only matters once the checkbox is
+       checked (an X-only sign-in has no email at all otherwise), and
+       auto-fills from whatever's already in the login email field so
+       nobody has to type the same address twice */
+    var consentBox = document.getElementById("wlConsent"),
+        consentWrap = document.getElementById("consentEmailWrap"),
+        consentEmail = document.getElementById("consentEmail"),
+        consentEmailTouched = false;
+
+    consentBox.addEventListener("change", function(){
+      consentWrap.style.display = consentBox.checked ? "flex" : "none";
+      if (consentBox.checked && !consentEmailTouched && email.value.trim()){
+        consentEmail.value = email.value.trim();
+      }
+    });
+    consentEmail.addEventListener("input", function(){ consentEmailTouched = true; });
+    email.addEventListener("input", function(){
+      if (consentBox.checked && !consentEmailTouched){
+        consentEmail.value = email.value.trim();
+      }
+    });
+
+    function marketingEmailIfConsented(){
+      if (!consentBox.checked) return null;
+      var v = consentEmail.value.trim();
+      return v || null; // validated properly at submit time in each flow below
+    }
+
+    async function renderLeaderboard(myId){
+      var box = document.getElementById("lbTable");
+      var html = '<div class="lbrow lbhead"><span>Rank</span><span>Member</span><span>Referrals</span><span>Points</span></div>';
+      var res = await sb.rpc("get_leaderboard", { p_limit: 10 });
+      if (res.error || !res.data){ box.innerHTML = html; return; }
+
+      res.data.forEach(function(r){
+        var mine = myId && r.id === myId;
+        html += '<div class="lbrow' + (r.rank <= 3 ? ' top3' : '') + (mine ? ' me' : '') + '">'
+          + '<span class="rk">' + r.rank + '</span>'
+          + '<span class="who"><i></i><span>' + (mine ? "@" + r.handle + " (you)" : "@" + r.handle) + '</span></span>'
+          + '<span class="refs">' + r.referrals + '</span>'
+          + '<span class="pts">' + r.points.toLocaleString() + '</span>'
+          + '</div>';
+      });
+      box.innerHTML = html;
+    }
+
+    /* runs once on load, and again every time auth state changes —
+       i.e. right after a redirect back from X, or a magic-link click */
+    async function afterAuth(){
+      var { data: { user } } = await sb.auth.getUser();
+      if (!user) { renderLeaderboard(null); return; }
+
+      /* referral code + consent were captured before the redirect
+         away to X/email, since that redirect reloads the page and
+         would otherwise lose them — see btnX/submitEmail below */
+      var pendingRef = sessionStorage.getItem("apollo_pending_ref");
+      var pendingConsentRaw = sessionStorage.getItem("apollo_pending_consent");
+      var pendingConsent = pendingConsentRaw === null ? null : pendingConsentRaw === "1";
+      var pendingEmail = sessionStorage.getItem("apollo_pending_marketing_email");
+      var justJoining = sessionStorage.getItem("apollo_just_joining") === "1";
+      sessionStorage.removeItem("apollo_pending_ref");
+      sessionStorage.removeItem("apollo_pending_consent");
+      sessionStorage.removeItem("apollo_pending_marketing_email");
+      sessionStorage.removeItem("apollo_just_joining");
+
+      /* idempotent — safe to call on every load, not just the first */
+      await sb.rpc("join_whitelist", {
+        p_referral_code: pendingRef || null,
+        p_marketing_consent: pendingConsent,
+        p_marketing_email: pendingEmail || null
+      });
+
+      var stats = await sb.rpc("get_my_stats");
+      if (stats.error || !stats.data || !stats.data.length) return;
+      var s = stats.data[0];
+
+      myCode = s.code;
+      document.getElementById("rRank").textContent = "#" + s.rank;
+      document.getElementById("rPts").textContent = s.points.toLocaleString();
+      document.getElementById("rCode").textContent = "apollo.finance/?ref=" + myCode;
+      document.getElementById("rRefs").textContent = s.referrals;
+      card.classList.add("is-done");
+      updateIntentLink();
+      renderLeaderboard(user.id);
+
+      /* prompt the share-to-earn popup right at the moment someone
+         actually just joined — not on every ordinary return visit
+         while already signed in */
+      if (justJoining) showShareModal();
+    }
+
+    sb.auth.onAuthStateChange(function(_event, session){ if (session) afterAuth(); });
+    afterAuth();
+
+    /* connect X — this redirects the whole page away and back, so
+       stash what the person entered first, or it's gone when they return.
+       X gives no email at all, so if the box is checked there MUST be
+       something in the subscribe-email field, or consent has nowhere
+       to go. */
+    document.getElementById("btnX").onclick = function(){
+      if (consentBox.checked && !consentEmail.value.trim()){
+        return say("Add an email above for updates, or uncheck that box.", "err");
+      }
+      sessionStorage.setItem("apollo_pending_ref", refIn.value.trim());
+      sessionStorage.setItem("apollo_pending_consent", consentBox.checked ? "1" : "0");
+      sessionStorage.setItem("apollo_pending_marketing_email", marketingEmailIfConsented() || "");
+      sessionStorage.setItem("apollo_just_joining", "1");
+      sb.auth.signInWithOAuth({ provider: "x", options: { redirectTo: location.href.split("#")[0] } });
+    };
+
+    async function submitEmail(){
+      var v = email.value.trim();
+      if (!v) return say("Enter an email to join.", "err");
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) return say("That address won't reach an inbox.", "err");
+      if (consentBox.checked && consentEmail.value.trim() && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(consentEmail.value.trim())){
+        return say("That update email doesn't look right.", "err");
+      }
+
+      sessionStorage.setItem("apollo_pending_ref", refIn.value.trim());
+      sessionStorage.setItem("apollo_pending_consent", consentBox.checked ? "1" : "0");
+      sessionStorage.setItem("apollo_pending_marketing_email", (marketingEmailIfConsented() || v));
+      sessionStorage.setItem("apollo_just_joining", "1");
+      say("Sending a sign-in link…");
+
+      var res = await sb.auth.signInWithOtp({ email: v, options: { emailRedirectTo: location.href.split("#")[0] } });
+      say(res.error ? res.error.message : "Check your email for a link to finish joining.", res.error ? "err" : "ok");
+    }
+    document.getElementById("btnEmail").onclick = submitEmail;
+    email.addEventListener("keydown", function(e){ if (e.key === "Enter") submitEmail(); });
+    email.addEventListener("input", function(){ if (note.getAttribute("data-t") === "err") say(""); });
+
+    /* copy referral link */
+    document.getElementById("btnCopy").onclick = function(){
+      var text = "https://" + document.getElementById("rCode").textContent;
+      var btn = this;
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+        .then(function(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = "Copy"; }, 1600); })
+        .catch(function(){ btn.textContent = "Select & copy"; });
+    };
+
+    /* set a custom referral code */
+    var editBox = document.getElementById("editCode"), custom = document.getElementById("customCode");
+    document.getElementById("btnCustom").onclick = function(){
+      editBox.style.display = editBox.style.display === "none" ? "flex" : "none";
+      if (editBox.style.display === "flex") custom.focus();
+    };
+    document.getElementById("btnSaveCode").onclick = async function(){
+      var v = custom.value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
+      if (v.length < 3) return say("Codes need at least 3 characters.", "err");
+      var res = await sb.rpc("claim_referral_code", { p_code: v });
+      if (res.error) return say(res.error.message, "err"); // e.g. "that code is already taken"
+      myCode = res.data;
+      document.getElementById("rCode").textContent = "apollo.finance/?ref=" + myCode;
+      updateIntentLink();
+      editBox.style.display = "none";
+      say("Referral code updated.", "ok");
+    };
+
+    /* share-to-earn: submit the URL, then hand it to the Edge Function
+       (verify-post-edge-function.ts) which actually checks it — this
+       page never decides on its own whether a post counts. One shared
+       function backs both the inline receipt block and the popup, so
+       verifying from either place keeps both in sync. */
+    var sharebox = document.getElementById("sharebox");
+    var postNote = document.getElementById("postNote"), modalNote = document.getElementById("modalNote");
+
+    async function attemptVerify(url){
+      if (!/^https?:\/\/(x\.com|twitter\.com)\//.test(url)) {
+        return { ok: false, msg: "Paste the link to your actual post on X." };
+      }
+      var sub = await sb.rpc("submit_post", { p_url: url });
+      if (sub.error) return { ok: false, msg: sub.error.message }; // e.g. "already credited" / "awaiting review"
+
+      var check = await sb.functions.invoke("verify-post", { body: { post_id: sub.data } });
+      if (check.error) return { ok: false, msg: "Something went wrong checking that post — try again." };
+
+      if (check.data && check.data.verified) return { ok: true };
+      return { ok: false, msg: (check.data && check.data.reason) || "Couldn't verify that post." };
+    }
+
+    async function onVerified(){
+      sharebox.classList.add("is-verified");
+      document.getElementById("shareModal").querySelector(".modal-card").classList.add("is-verified");
+      var stats = await sb.rpc("get_my_stats");
+      if (!stats.error && stats.data && stats.data.length){
+        document.getElementById("rPts").textContent = stats.data[0].points.toLocaleString();
+      }
+      var { data: { user } } = await sb.auth.getUser();
+      renderLeaderboard(user ? user.id : null);
+    }
+
+    document.getElementById("btnVerify").onclick = async function(){
+      var url = document.getElementById("postUrl").value.trim();
+      postNote.textContent = "Checking your post…"; postNote.setAttribute("data-t", "");
+      var res = await attemptVerify(url);
+      if (res.ok) onVerified();
+      else { postNote.textContent = res.msg; postNote.setAttribute("data-t", "err"); }
+    };
+
+    document.getElementById("modalVerify").onclick = async function(){
+      var url = document.getElementById("modalPostUrl").value.trim();
+      modalNote.textContent = "Checking your post…"; modalNote.setAttribute("data-t", "");
+      var res = await attemptVerify(url);
+      if (res.ok) onVerified();
+      else { modalNote.textContent = res.msg; modalNote.setAttribute("data-t", "err"); }
+    };
+
+    /* the popup itself: opened automatically right after a fresh join
+       (see afterAuth above), or never at all if the person dismisses
+       it — the inline block in the receipt is always there as a
+       fallback, so closing this costs nothing */
+    var shareModal = document.getElementById("shareModal");
+    function showShareModal(){
+      if (sharebox.classList.contains("is-verified")) return; // already earned it, nothing to prompt
+      shareModal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      document.getElementById("shareModalClose").focus();
+    }
+    function hideShareModal(){
+      shareModal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+    document.getElementById("shareModalClose").onclick = hideShareModal;
+    document.getElementById("shareModalSkip").onclick = hideShareModal;
+    shareModal.addEventListener("click", function(e){ if (e.target === shareModal) hideShareModal(); });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && shareModal.style.display !== "none") hideShareModal();
+    });
+
+  })();
+
+  /* countdown */
+  var c = {};
+  ["d","h","m","s"].forEach(function(k){ c[k] = document.querySelectorAll('[data-c="'+k+'"]'); });
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function set(k, v){ c[k].forEach(function(el){ el.textContent = pad(v); }); }
+  (function tick(){
+    var L = Math.max(0, Math.floor((MINT - new Date())/1000));
+    set("d", Math.floor(L/86400));
+    set("h", Math.floor(L%86400/3600));
+    set("m", Math.floor(L%3600/60));
+    set("s", L%60);
+    setTimeout(tick, 1000);
+  })();
+})();
+</script>
+</body>
+</html>
