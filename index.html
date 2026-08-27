@@ -35,6 +35,7 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--lime);color:#000}
 :focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:4px}
@@ -109,7 +110,7 @@ a{color:inherit;text-decoration:none}
   margin-top:clamp(26px,4vw,44px)}
 
 /* section header */
-.grid-head{margin:clamp(54px,8vw,88px) 0 20px}
+.grid-head{margin:clamp(68px,8vw,96px) 0 24px}
 .grid-head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--card);
   border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:12.5px;color:var(--dim)}
 .grid-head .eyebrow .dot{background:var(--lime-ink);box-shadow:0 0 0 0 rgba(90,117,0,.4);
@@ -121,13 +122,30 @@ a{color:inherit;text-decoration:none}
 .grid-head h2 span{color:var(--lime-ink)}
 
 /* cards */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
 @media(max-width:880px){.grid{grid-template-columns:1fr}}
 .card .art{border-radius:var(--r);background:var(--dark);border:1px solid #26261F;
   box-shadow:0 1px 2px rgba(17,17,16,.06);height:240px;display:flex;
   align-items:center;justify-content:center;padding:24px;overflow:hidden}
 .card h3{font-size:17px;font-weight:500;margin:20px 0 8px}
 .card p{margin:0;color:var(--dim);font-size:14.5px;max-width:34ch}
+
+/* compact homepage whitelist entry */
+.home-wl{margin-top:clamp(42px,5vw,62px);border-radius:var(--r);background:var(--dark);color:#fff;
+  padding:clamp(34px,5vw,52px) clamp(26px,5vw,58px);display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(360px,480px);align-items:center;gap:clamp(34px,5vw,72px);
+  min-height:260px;box-shadow:0 20px 54px rgba(17,17,16,.11)}
+.home-wl-copy{min-width:0}
+.home-wl-copy h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(34px,4.2vw,48px);
+  line-height:1.02;margin:0;white-space:nowrap}
+.home-wl-copy p{margin:14px 0 0;color:#92928D;font-size:15px;max-width:30ch}
+.home-wl-form{min-width:0}
+.home-wl .field{background:#1F1F1D}
+.home-wl .btn-x{padding:13px}
+.home-wl .or{margin:12px 0}
+.home-wl-consent{margin:9px 3px 0}
+.home-wl-consent .txt{font-size:10.5px}
+.home-wl .note{margin:7px 4px 0;min-height:0}
 
 .supply{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;width:100%;max-width:212px}
 .supply i{aspect-ratio:1;border-radius:2px;background:#2B2B29;
@@ -163,7 +181,7 @@ a{color:inherit;text-decoration:none}
 .feewrap .cap b{color:var(--lime);font-weight:500}
 
 /* closer — the second dark panel */
-.closer{margin-top:clamp(38px,6vw,64px);border-radius:var(--r);background:var(--dark);
+.closer{margin-top:clamp(44px,6vw,72px);border-radius:var(--r);background:var(--dark);
   color:#fff;text-align:center;padding:clamp(46px,7vw,80px) clamp(22px,5vw,56px)}
 .closer .lead{margin:0;font-size:11px;letter-spacing:.2em;
   text-transform:uppercase;color:#8C8C88}
@@ -178,6 +196,16 @@ a{color:inherit;text-decoration:none}
 
 
 /* whitelist — signup, points, referral */
+.wl-countdown{margin-top:clamp(28px,4vw,44px);border-radius:var(--r);background:var(--dark);
+  color:#fff;padding:22px clamp(22px,4vw,42px);display:flex;align-items:center;
+  justify-content:space-between;gap:28px;box-shadow:0 18px 48px rgba(17,17,16,.09)}
+.wl-countdown-copy{min-width:0}
+.wl-countdown-copy span{display:block;font-size:10.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:#777772}
+.wl-countdown-copy b{display:block;margin-top:5px;color:#D6D6D1;font-size:13px;font-weight:400}
+.wl-countdown .clock{margin:0;gap:clamp(16px,3vw,30px)}
+.wl-countdown .clock b{font-size:clamp(22px,3vw,30px);color:var(--lime)}
+.wl-countdown+.wl{margin-top:16px}
 .wl{margin-top:clamp(38px,6vw,64px);border-radius:var(--r);background:var(--dark);color:#fff;
   padding:clamp(40px,6.5vw,72px) clamp(22px,5vw,56px);
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);
@@ -192,19 +220,31 @@ a{color:inherit;text-decoration:none}
 .earn{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
 .earn li{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid #262624}
 .earn li:last-child{border-bottom:1px solid #262624}
-.earn b{font-family:Newsreader,Georgia,serif;font-size:20px;color:var(--lime);min-width:52px}
+.earn b{font-family:Newsreader,Georgia,serif;font-size:19px;color:var(--lime);min-width:108px;white-space:nowrap}
 .earn span{color:#B8B8B3;font-size:13.5px}
 
 .wlcard{background:var(--dark-2);border:1px solid #2A2A28;border-radius:14px;
   padding:clamp(22px,3vw,32px)}
+.returning-copy{display:none;margin:0 0 22px;padding-bottom:22px;border-bottom:1px solid #2A2A28}
+.returning-copy strong{display:block;font-family:Newsreader,Georgia,serif;font-size:25px;
+  line-height:1.1;font-weight:400;color:#fff}
+.returning-copy span{display:block;margin-top:8px;color:#8C8C88;font-size:12.5px;line-height:1.5}
+.wlcard.is-returning .returning-copy{display:block}
+.wlcard.is-returning .join-only{display:none}
+.auth-alt{display:block;margin:2px auto 0;padding:4px;border:0;background:none;color:#8C8C88;
+  font-family:inherit;font-size:12px;cursor:pointer;text-decoration:underline;
+  text-underline-offset:4px;text-decoration-color:#44443F}
+.auth-alt:hover{color:#fff}
+.returning-copy .auth-alt{margin:14px 0 0;padding-left:0}
 
 .consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;
   margin:14px 2px 20px;user-select:none}
 .consent input{position:absolute;opacity:0;width:1px;height:1px}
-.consent .box{flex:none;width:14px;height:14px;margin-top:2px;border-radius:4px;
+.consent .box{flex:none;width:18px;height:18px;margin-top:1px;border-radius:5px;
   border:1px solid #333331;background:transparent;position:relative;transition:background .15s,border-color .15s}
-.consent .box::after{content:"";position:absolute;left:4px;top:1px;width:3px;height:6px;
-  border:solid #000;border-width:0 1.6px 1.6px 0;transform:rotate(45deg);opacity:0;transition:opacity .1s}
+.consent .box::after{content:"";position:absolute;left:50%;top:46%;width:5px;height:9px;
+  border:solid #000;border-width:0 2px 2px 0;transform:translate(-50%,-58%) rotate(45deg);
+  opacity:0;transition:opacity .1s}
 .consent input:checked + .box{background:var(--lime);border-color:var(--lime)}
 .consent input:checked + .box::after{opacity:1}
 .consent input:focus-visible + .box{outline:2px solid var(--lime);outline-offset:2px}
@@ -228,8 +268,9 @@ a{color:inherit;text-decoration:none}
 .field button{background:var(--lime);color:#000;border:0;border-radius:999px;padding:0 18px;
   font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
 .field button:hover{background:#fff}
+.field button:disabled{cursor:not-allowed;opacity:.58;transform:none}
 .refline{margin:14px 0 0}
-.wlcard > .refline.entry:first-child{margin-top:0;margin-bottom:20px;
+.wlcard > .refline.entry{margin-top:0;margin-bottom:22px;
   padding-bottom:20px;border-bottom:1px solid #262624}
 .consent-email{margin-top:10px}
 .refline label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
@@ -238,9 +279,11 @@ a{color:inherit;text-decoration:none}
 .note[data-t="err"]{color:#FF8A7A}
 .note[data-t="ok"]{color:var(--lime)}
 .note[data-t="ref"]{color:#B8B8B3}
+.wlcard>.note:empty,.home-wl .note:empty{display:none}
 
 /* receipt — post-signup state */
 .receipt{display:none}
+.wlcard.is-done .returning-copy,.wlcard.is-done .auth-alt,
 .wlcard.is-done .btn-x,.wlcard.is-done .or,.wlcard.is-done .field.email,
 .wlcard.is-done .refline.entry,.wlcard.is-done .note,.wlcard.is-done .consent,
 .wlcard.is-done .consent-email{display:none}
@@ -260,18 +303,6 @@ a{color:inherit;text-decoration:none}
   padding:9px 16px;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
   transition:background .18s,color .18s}
 .codebox button:hover{background:var(--lime);color:#000}
-.editcode{display:flex;gap:8px;margin-top:8px}
-.editcode input{flex:1;min-width:0;background:#141413;border:1px solid #2A2A28;border-radius:999px;
-  color:#fff;font-family:inherit;font-size:13.5px;padding:9px 16px;outline:0}
-.editcode input:focus{border-color:#4A4A46}
-.editcode button{flex:none;background:#242422;color:#D6D6D6;border:0;border-radius:999px;
-  padding:9px 16px;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer}
-.editcode button:hover{background:var(--lime);color:#000}
-.custom-toggle{background:none;border:0;color:#7C7C78;font-family:inherit;font-size:11.5px;
-  letter-spacing:.04em;cursor:pointer;padding:0;margin-top:8px;text-decoration:underline;
-  text-underline-offset:3px;text-decoration-color:#3A3A38}
-.custom-toggle:hover{color:#D6D6D6}
-
 .sharebox{margin-top:22px;padding-top:18px;border-top:1px solid #2A2A28}
 .sharebox label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:#7C7C78;margin-bottom:6px}
@@ -283,10 +314,12 @@ a{color:inherit;text-decoration:none}
   width:18px;height:18px;border-radius:50%;background:var(--lime);color:#000;
   font-size:11px;flex:none}
 .sharebox.is-verified .btn-x,.sharebox.is-verified .field,
-.sharebox.is-verified .sharehint,.sharebox.is-verified .note{display:none}
+.sharebox.is-verified .sharehint,.sharebox.is-verified .share-step,
+.sharebox.is-verified .note{display:none}
 .sharebox.is-verified .postdone{display:flex}
 .modal-card.is-verified .btn-x,.modal-card.is-verified .field,
-.modal-card.is-verified .modal-copy,.modal-card.is-verified .note{display:none}
+.modal-card.is-verified .modal-copy,.modal-card.is-verified .modal-step,
+.modal-card.is-verified .note{display:none}
 .modal-card.is-verified .postdone{display:flex}
 
 
@@ -339,12 +372,163 @@ a{color:inherit;text-decoration:none}
 .modal-card h3 span{color:var(--lime)}
 .modal-copy{margin:12px 0 0;color:#9A9A96;font-size:13.5px;line-height:1.5}
 .modal-card .btn-x{width:100%;margin-top:22px;padding:14px}
+.modal-step{display:flex;align-items:center;gap:10px;margin:22px 0 10px;text-align:left;
+  color:#D6D6D1;font-size:12.5px;font-weight:500}
+.modal-step b,.share-step b{display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:22px;height:22px;border-radius:50%;background:#292927;color:var(--lime);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:11px;font-weight:500}
+.modal-step + .btn-x{margin-top:0}
+.modal-step.second{margin-top:18px}
+.modal-card .tweet-field{margin-top:0}
+.tweet-field input::placeholder{color:#686863}
+.modal-ref{margin-top:20px;text-align:left}
+.modal-ref>label{display:block;margin:0 0 8px;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:#7C7C78}
+.modal-ref .codebox{margin-top:0}
 .modal-skip{display:block;margin:16px auto 0;background:none;border:0;color:#6E6E6A;
   font-family:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;
   text-decoration-color:#333331;cursor:pointer}
 .modal-skip:hover{color:#9A9A96}
 .modal-card .postdone{justify-content:center}
+.share-step{display:flex;align-items:center;gap:9px;margin:14px 0 10px;
+  color:#B8B8B3;font-size:12.5px;font-weight:500}
+.share-step:first-of-type{margin-top:0}
+.sharebox>.btn-x{margin-top:0}
 
+/* conversion and visual polish */
+body{background:
+  radial-gradient(circle at 50% -20%,rgba(212,255,61,.075),transparent 34rem),
+  var(--bg)}
+.shell{max-width:1240px}
+.nav{position:sticky;top:0;z-index:80;margin-inline:calc(var(--gut) * -1);
+  padding:14px var(--gut);background:rgba(244,244,241,.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .2s ease,background .2s ease}
+.nav:hover{border-bottom-color:rgba(17,17,16,.06)}
+.nav .cta{background:var(--lime);color:#000;box-shadow:0 6px 20px rgba(90,117,0,.16)}
+.nav .cta:hover{background:var(--fg);color:#fff;transform:translateY(-1px)}
+.hero{min-height:min(650px,72vh);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding-bottom:0;box-shadow:0 24px 70px rgba(17,17,16,.12)}
+.hero::before{content:"";position:absolute;inset:-30%;pointer-events:none;
+  background:radial-gradient(circle at 50% 38%,rgba(212,255,61,.075),transparent 27%)}
+.hero .horizon{margin-top:auto}
+.hero h1{text-wrap:balance}
+.hero p{font-size:15.5px}
+.badge,.grid-head .eyebrow,.wl .eyebrow,.lb-head .eyebrow{
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.035)}
+.grid-head h2{font-size:clamp(22px,4.2vw,50px);white-space:nowrap;max-width:none}
+.grid{gap:20px}
+.card{transition:transform .25s ease}
+.card:hover{transform:translateY(-5px)}
+.card .art{height:260px;transition:border-color .25s ease,box-shadow .25s ease}
+.card:hover .art{border-color:#37372f;box-shadow:0 16px 38px rgba(17,17,16,.12)}
+.card h3{margin-top:18px}
+.closer{box-shadow:0 24px 65px rgba(17,17,16,.10)}
+
+/* Keep the signup action above the point mechanics on narrow screens. */
+.wl{grid-template-areas:"eyebrow card" "title card" "lede card" "earn card";
+  grid-template-rows:auto auto auto 1fr;box-shadow:0 24px 65px rgba(17,17,16,.12)}
+.wl>div:first-child{display:contents}
+.wl>div:first-child>.eyebrow{grid-area:eyebrow;justify-self:start}
+.wl>div:first-child>h2{grid-area:title}
+.wl>div:first-child>.lede{grid-area:lede}
+.wl>div:first-child>.earn{grid-area:earn}
+.wl>.wlcard{grid-area:card;align-self:center}
+.wlcard{box-shadow:0 24px 55px rgba(0,0,0,.24);transition:border-color .2s ease,transform .25s ease}
+.wlcard:focus-within{border-color:#44443d;transform:translateY(-2px)}
+.wlcard.attention{animation:cardAttention 1.1s ease}
+@keyframes cardAttention{0%,100%{box-shadow:0 24px 55px rgba(0,0,0,.24)}45%{box-shadow:0 0 0 2px rgba(212,255,61,.75),0 24px 70px rgba(212,255,61,.14)}}
+.field{min-height:52px}
+.field button,.btn-x{min-height:44px}
+.btn-x,.field button,.cta{transition:background .18s,color .18s,transform .18s,box-shadow .18s}
+.btn-x:hover,.field button:hover{transform:translateY(-1px)}
+.consent{padding:2px 0}
+.consent .box{width:16px;height:16px}
+.lb{box-shadow:0 24px 65px rgba(17,17,16,.10)}
+
+/* interaction and motion layer */
+.home-wl,.closer,.wl,.lb{position:relative;overflow:hidden}
+.home-wl>*,.closer>*,.wl>*,.lb>*{position:relative;z-index:1}
+.brand svg{transition:transform .5s cubic-bezier(.2,.8,.2,1),color .25s ease}
+.brand:hover svg{transform:rotate(-8deg) scale(1.08);color:var(--lime-ink)}
+.cta,.btn-x,.field button{position:relative;overflow:hidden;isolation:isolate}
+.cta::after,.btn-x::after,.field button::after{content:"";position:absolute;inset:-2px;
+  background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.48) 48%,transparent 70%);
+  transform:translateX(-140%);transition:transform .65s cubic-bezier(.2,.8,.2,1);z-index:-1}
+.cta:hover::after,.btn-x:hover::after,.field button:hover::after{transform:translateX(140%)}
+.earn li{transition:padding-left .22s ease,background .22s ease}
+.earn li:hover{padding-left:10px;background:linear-gradient(90deg,rgba(212,255,61,.045),transparent 72%)}
+.earn li b{transition:transform .22s ease,text-shadow .22s ease}
+.earn li:hover b{transform:translateX(2px);text-shadow:0 0 18px rgba(212,255,61,.28)}
+.clock b{transition:color .2s ease,text-shadow .2s ease,transform .2s ease}
+.clock div:hover b{color:var(--lime);text-shadow:0 0 18px rgba(212,255,61,.3);transform:translateY(-2px)}
+.lbrow:not(.lbhead){transition:background .2s ease,transform .2s ease}
+.lbrow:not(.lbhead):hover{background:rgba(212,255,61,.045);transform:translateX(3px)}
+.motion-reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}
+.motion-reveal.is-visible{opacity:1;transform:none}
+.card .art{transform-style:preserve-3d;will-change:transform}
+.card .art>*{transform:translateZ(12px)}
+
+@media(max-width:900px){
+  .home-wl{grid-template-columns:1fr;gap:18px}
+  .home-wl-copy p{width:100%}
+  .wl{grid-template-areas:"eyebrow" "title" "lede" "card" "earn";
+    grid-template-columns:1fr;grid-template-rows:auto;gap:0}
+  .wl>.wlcard{margin-top:28px}
+  .wl .earn{margin-top:32px}
+}
+@media(max-width:600px){
+  :root{--r:20px}
+  .banner{justify-content:flex-start;text-align:left;font-size:12.5px;padding-block:8px}
+  .nav{padding-top:13px;padding-bottom:13px}
+  .brand{font-size:18px;gap:8px}
+  .brand svg{width:28px;height:28px}
+  .nav .cta{padding:10px 18px}
+  .hero{min-height:0;height:434px;padding-top:48px}
+  .hero h1{font-size:clamp(39px,11vw,48px);max-width:11ch;margin-top:24px}
+  .hero p{font-size:15px;max-width:29ch;margin-top:20px}
+  .clock{gap:20px}
+  .grid-head{margin-top:62px;margin-bottom:22px}
+  .grid-head h2{font-size:clamp(21px,6.1vw,31px);line-height:1.08;letter-spacing:-.025em}
+  .grid{gap:34px}
+  .home-wl{margin-top:42px;padding:32px 22px;min-height:0}
+  .home-wl-copy h2{font-size:34px;white-space:normal}
+  .home-wl-copy p{white-space:normal;overflow:visible}
+  .card .art{height:228px}
+  .card:hover{transform:none}
+  .closer{margin-top:48px}
+  .wl-countdown{margin-top:18px;padding:20px;gap:18px}
+  .wl-countdown-copy b{font-size:12px}
+  .wl-countdown .clock{gap:14px}
+  .wl-countdown .clock b{font-size:21px}
+  .wl-countdown .clock i{font-size:8px}
+  .wl{margin-top:0;padding:40px 22px 44px}
+  .wl h2{font-size:36px;max-width:none}
+  .wl .lede{font-size:15px;max-width:34ch}
+  .wlcard{padding:22px;margin-inline:-2px}
+  .wlcard:focus-within{transform:none}
+  .earn li{gap:12px;padding:16px 0}
+  .earn b{min-width:104px;font-size:18px}
+  .lb{margin-top:12px;padding-inline:18px}
+  .lbrow{grid-template-columns:34px minmax(0,1fr) 64px 64px;gap:7px;font-size:12.5px}
+  .consent .txt{font-size:12px;line-height:1.45}
+  .modal-card{max-height:calc(100dvh - 28px);overflow:auto}
+}
+@media(max-width:360px){
+  :root{--gut:14px}
+  .banner{font-size:11.5px;padding:7px 34px 7px 12px}
+  .banner a{white-space:nowrap;gap:4px}
+  .brand{letter-spacing:.18em;text-indent:.18em}
+  .nav .cta{padding-inline:15px}
+  .hero{height:420px}
+  .hero h1{font-size:37px}
+  .clock{gap:16px}
+  .home-wl,.wl{padding-inline:18px}
+  .wlcard{padding-inline:18px}
+  .earn b{min-width:94px;font-size:17px}
+  .earn span{font-size:12.5px}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -373,16 +557,26 @@ a{color:inherit;text-decoration:none}
 <div class="modal-overlay" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" style="display:none">
   <div class="modal-card">
     <button class="modal-close" id="shareModalClose" type="button" aria-label="Close">×</button>
-    <span class="eyebrow"><span class="dot"></span> Bonus unlocked</span>
-    <h3 id="shareModalTitle">Earn <span>300 more points.</span></h3>
-    <p class="modal-copy">Post it on X, paste the link back here, and we'll check it automatically.</p>
+    <span class="eyebrow"><span class="dot"></span> You're in</span>
+    <h3 id="shareModalTitle">You've joined the <span>whitelist!</span></h3>
+    <p class="modal-copy">Share your referral link on X. You earn 50 points when a friend joins with your code, and they earn 50 points too.</p>
 
+    <div class="modal-ref">
+      <label>Your referral link</label>
+      <div class="codebox">
+        <code id="modalRefCode">apollo.finance/?ref=APOLLO</code>
+        <button id="modalCopy" type="button">Copy</button>
+      </div>
+    </div>
+
+    <p class="modal-step"><b>1</b> Share your referral link on X</p>
     <a class="btn-x" id="modalIntent" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
-      Post on X
+      Share on X
     </a>
 
-    <div class="field" style="margin-top:14px">
+    <p class="modal-step second"><b>2</b> Paste link of tweet here</p>
+    <div class="field tweet-field">
       <label for="modalPostUrl" class="sr">Link to your post</label>
       <input id="modalPostUrl" type="url" placeholder="https://x.com/you/status/..." autocomplete="off" spellcheck="false">
       <button id="modalVerify" type="button">Verify</button>
@@ -423,7 +617,6 @@ a{color:inherit;text-decoration:none}
       <span class="badge"><span class="dot"></span> Launching on Robinhood Chain</span>
       <h1>Your portfolio is idle. <span>Not for long.</span></h1>
       <p>Borrowing and lending for tokenized stocks. Opening soon.</p>
-
       <p class="sr">Mint opens <b data-mint-long>—</b></p>
       <div class="clock" id="clock" aria-hidden="true">
         <div><b data-c="d">––</b><i>days</i></div>
@@ -504,6 +697,31 @@ a{color:inherit;text-decoration:none}
       </article>
     </section>
 
+    <section class="home-wl dots-dk" aria-labelledby="homeWlTitle">
+      <div class="home-wl-copy">
+        <h2 id="homeWlTitle">Join the whitelist</h2>
+        <p>Earn your spot before the mint opens.</p>
+      </div>
+      <div class="home-wl-form">
+        <button class="btn-x" id="homeWlX" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
+          Connect X
+        </button>
+        <div class="or">or</div>
+        <div class="field">
+          <label for="homeWlEmail" class="sr">Email</label>
+          <input id="homeWlEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" spellcheck="false">
+          <button id="homeWlJoin" type="button">Join</button>
+        </div>
+        <label class="consent home-wl-consent">
+          <input type="checkbox" id="homeWlConsent" checked>
+          <span class="box" aria-hidden="true"></span>
+          <span class="txt">Email me product updates and the mint date. Unsubscribe anytime.</span>
+        </label>
+        <p class="note" id="homeWlNote" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
     <section class="closer dots-dk">
       <p class="lead">NFTs go live in</p>
       <div class="clock big" aria-hidden="true">
@@ -516,7 +734,7 @@ a{color:inherit;text-decoration:none}
 
       <a class="cta" href="https://x.com/apollofinance" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
-        Follow for the mint link
+        Follow
       </a>
     </section>
 
@@ -524,22 +742,40 @@ a{color:inherit;text-decoration:none}
 
   <div id="view-whitelist" style="display:none">
 
+    <section class="wl-countdown dots-dk" aria-label="NFT mint countdown">
+      <div class="wl-countdown-copy">
+        <span>NFTs go live in</span>
+        <b data-mint-long>—</b>
+      </div>
+      <div class="clock" aria-hidden="true">
+        <div><b data-c="d">––</b><i>days</i></div>
+        <div><b data-c="h">––</b><i>hrs</i></div>
+        <div><b data-c="m">––</b><i>min</i></div>
+        <div><b data-c="s">––</b><i>sec</i></div>
+      </div>
+    </section>
+
     <section class="wl dots-dk" id="whitelist">
       <div>
         <span class="eyebrow"><span class="dot"></span> Whitelist open</span>
         <h2>Earn your <span>spot.</span></h2>
-        <p class="lede">Join the list, then invite people. Points decide who mints first when the window opens.</p>
+        <p class="lede">The more points you earn, the better your mint perks.</p>
 
         <ul class="earn">
-          <li><b>+100</b><span>For joining the whitelist</span></li>
-          <li><b>+50</b><span>For every friend who joins with your code</span></li>
-          <li><b>+50</b><span>For you, if you join using a friend's code</span></li>
-          <li><b>+300</b><span>For posting your referral link on X</span></li>
+          <li><b>+50 points</b><span>For you when a friend joins using your code, and 50 points for them</span></li>
+          <li><b>+100 points</b><span>For joining the whitelist</span></li>
+          <li><b>+300 points</b><span>For posting your referral link on X</span></li>
         </ul>
       </div>
 
       <div class="wlcard" id="wlcard">
-        <div class="refline entry">
+        <div class="returning-copy" id="returningCopy">
+          <strong>Welcome back.</strong>
+          <span>Use the same account you joined with to see your points and position.</span>
+          <button class="auth-alt" id="backToJoin" type="button">Join the whitelist instead</button>
+        </div>
+
+        <div class="refline entry join-only">
           <label for="wlRef">Referral code (optional)</label>
           <div class="field">
             <label for="wlRef" class="sr">Referral code</label>
@@ -560,16 +796,12 @@ a{color:inherit;text-decoration:none}
           <button id="btnEmail" type="button">Join</button>
         </div>
 
-        <label class="consent">
-          <input type="checkbox" id="wlConsent">
+        <label class="consent join-only">
+          <input type="checkbox" id="wlConsent" checked>
           <span class="box" aria-hidden="true"></span>
           <span class="txt">Email me product updates and the mint date. Unsubscribe anytime.</span>
         </label>
-        <div class="field consent-email" id="consentEmailWrap" style="display:none">
-          <label for="consentEmail" class="sr">Email for updates</label>
-          <input id="consentEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" spellcheck="false">
-        </div>
-
+        <button class="auth-alt join-only" id="returningLogin" type="button">Already joined? Log in</button>
         <p class="note" id="wlNote" role="status" aria-live="polite"></p>
 
         <div class="receipt" id="wlReceipt">
@@ -582,23 +814,20 @@ a{color:inherit;text-decoration:none}
               <code id="rCode">apollo.finance/?ref=APOLLO</code>
               <button id="btnCopy" type="button">Copy</button>
             </div>
-            <button class="custom-toggle" id="btnCustom" type="button">Set a custom code</button>
-            <div class="editcode" id="editCode" style="display:none">
-              <input id="customCode" type="text" placeholder="YOURNAME" maxlength="16" autocomplete="off" spellcheck="false">
-              <button id="btnSaveCode" type="button">Save</button>
-            </div>
           </div>
 
           <div class="rrow"><span>Referrals</span><b id="rRefs">0</b></div>
 
           <div class="sharebox" id="sharebox">
             <label>Post it, earn 300</label>
-            <p class="sharehint">Share your link on X, then paste the post back here. We check it contains your link before crediting the points.</p>
+            <p class="sharehint">Complete both steps below. We verify that your tweet includes your referral link before adding the points.</p>
+            <p class="share-step"><b>1</b> Share your referral link on X</p>
             <a class="btn-x" id="btnIntent" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>
               Post about Apollo
             </a>
-            <div class="field" style="margin-top:12px">
+            <p class="share-step"><b>2</b> Paste link of tweet here</p>
+            <div class="field tweet-field">
               <label for="postUrl" class="sr">Link to your post</label>
               <input id="postUrl" type="url" placeholder="https://x.com/you/status/..." autocomplete="off" spellcheck="false">
               <button id="btnVerify" type="button">Verify</button>
@@ -630,22 +859,15 @@ a{color:inherit;text-decoration:none}
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
   "use strict";
 
-  /* ── the only things you need to change ──
-     MINT: your mint date/time.
-     SUPABASE_URL / SUPABASE_ANON_KEY: Settings → API in your Supabase
-     project. The anon key is safe to expose here — it has no power on
-     its own; Row Level Security in schema.sql is what actually decides
-     what it's allowed to touch. */
+  /* Self-contained interaction preview. Authentication, points and
+     referrals are simulated locally until the production backend is ready. */
   var MINT = new Date("2026-09-30T14:00:00Z");
-  var SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
-  var SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
-
-  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var DEMO_MODE = true;
+  var sb = null;
 
   /* mint date, long form */
   var long = MINT.toLocaleDateString("en-GB",{day:"numeric",month:"long",timeZone:"UTC"}) +
@@ -701,6 +923,7 @@ a{color:inherit;text-decoration:none}
     });
 
     show(location.hash === "#whitelist" ? "whitelist" : "overview");
+    requestAnimationFrame(function(){ window.scrollTo({top:0,behavior:"auto"}); });
   })();
 
   /* banner */
@@ -709,20 +932,51 @@ a{color:inherit;text-decoration:none}
   };
 
 
-  /* ── whitelist: real Supabase-backed signup, points, referrals,
-     leaderboard, and share-to-earn. Every write here goes through
-     the functions in schema.sql — this file never computes points,
-     rank, or referral counts itself; it only ever displays what the
-     database says. See schema.sql for what actually enforces the
-     rules (one signup bonus, no self-referral, etc). */
+  /* ── whitelist interaction preview ── */
   (function(){
     var card    = document.getElementById("wlcard"),
         note    = document.getElementById("wlNote"),
         email   = document.getElementById("wlEmail"),
         refIn   = document.getElementById("wlRef"),
-        myCode  = "";
+        myCode  = "",
+        demoPostLocked = false,
+        isReturning = false;
 
-    function say(t, tone){ note.textContent = t; note.setAttribute("data-t", tone || ""); }
+    /* The nav login action opens the auth view, then brings the actual
+       sign-in control into focus so the click always has a visible result. */
+    document.getElementById("topCta").addEventListener("click", function(){
+      setTimeout(function(){
+        setAuthMode("returning");
+        card.classList.remove("attention");
+        void card.offsetWidth;
+        card.classList.add("attention");
+        if (!card.classList.contains("is-done")) email.focus({preventScroll:false});
+      }, 320);
+    });
+
+    function say(t, tone){
+      note.textContent = t; note.setAttribute("data-t", tone || "");
+      var homeNote = document.getElementById("homeWlNote");
+      if (homeNote){ homeNote.textContent = t; homeNote.setAttribute("data-t", tone || ""); }
+    }
+
+    function setXButtonLabel(label){
+      document.getElementById("btnX").innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z"/></svg>' + label;
+    }
+
+    function setAuthMode(mode){
+      isReturning = mode === "returning";
+      card.classList.toggle("is-returning", isReturning);
+      document.getElementById("btnEmail").textContent = isReturning ? "View" : "Join";
+      setXButtonLabel(isReturning ? "Continue with X" : "Connect X");
+      say("");
+    }
+
+    document.getElementById("returningLogin").onclick = function(){
+      setAuthMode("returning");
+      email.focus();
+    };
+    document.getElementById("backToJoin").onclick = function(){ setAuthMode("join"); };
 
     /* prefill the referral field from ?ref=CODE in the URL */
     var qref = new URLSearchParams(location.search).get("ref");
@@ -731,49 +985,52 @@ a{color:inherit;text-decoration:none}
       say("Invited by " + qref.toUpperCase() + " — you'll both get bonus points.", "ref");
     }
 
-    /* the intent link always carries the CURRENT code, so it stays
-       correct even after a custom code change. Two places show it —
-       the receipt's inline button and the popup — so they're kept
-       in sync from one function rather than duplicated. */
+    /* Keep both referral-sharing surfaces in sync. */
     function updateIntentLink(){
       var link = "https://apollo.finance/?ref=" + myCode;
       var text = "Apollo is bringing lending onchain for tokenized stocks on Robinhood Chain. Whitelist is open — " + link;
       var href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
       document.getElementById("btnIntent").href = href;
       document.getElementById("modalIntent").href = href;
+      document.getElementById("modalRefCode").textContent = "apollo.finance/?ref=" + myCode;
     }
 
     /* the subscribe-email field: only matters once the checkbox is
        checked (an X-only sign-in has no email at all otherwise), and
        auto-fills from whatever's already in the login email field so
        nobody has to type the same address twice */
-    var consentBox = document.getElementById("wlConsent"),
-        consentWrap = document.getElementById("consentEmailWrap"),
-        consentEmail = document.getElementById("consentEmail"),
-        consentEmailTouched = false;
-
-    consentBox.addEventListener("change", function(){
-      consentWrap.style.display = consentBox.checked ? "flex" : "none";
-      if (consentBox.checked && !consentEmailTouched && email.value.trim()){
-        consentEmail.value = email.value.trim();
-      }
-    });
-    consentEmail.addEventListener("input", function(){ consentEmailTouched = true; });
-    email.addEventListener("input", function(){
-      if (consentBox.checked && !consentEmailTouched){
-        consentEmail.value = email.value.trim();
-      }
-    });
+    var consentBox = document.getElementById("wlConsent");
 
     function marketingEmailIfConsented(){
       if (!consentBox.checked) return null;
-      var v = consentEmail.value.trim();
-      return v || null; // validated properly at submit time in each flow below
+      var v = email.value.trim();
+      return v || null;
     }
 
     async function renderLeaderboard(myId){
       var box = document.getElementById("lbTable");
       var html = '<div class="lbrow lbhead"><span>Rank</span><span>Member</span><span>Referrals</span><span>Points</span></div>';
+      if (DEMO_MODE){
+        var demoRows = [
+          {rank:1,handle:"orion",referrals:42,points:4100},
+          {rank:2,handle:"lunar",referrals:35,points:3650},
+          {rank:3,handle:"sol",referrals:29,points:3200},
+          {rank:4,handle:"cassini",referrals:24,points:2750},
+          {rank:5,handle:"atlas",referrals:18,points:2200}
+        ];
+        if (myId) demoRows.push({rank:742,handle:"you",referrals:0,points:Number(document.getElementById("rPts").textContent.replace(/,/g,"")) || 100,mine:true});
+        demoRows.forEach(function(r){
+          html += '<div class="lbrow' + (r.rank <= 3 ? ' top3' : '') + (r.mine ? ' me' : '') + '">'
+            + '<span class="rk">' + r.rank + '</span>'
+            + '<span class="who"><i></i><span>@' + r.handle + (r.mine ? ' (you)' : '') + '</span></span>'
+            + '<span class="refs">' + r.referrals + '</span>'
+            + '<span class="pts">' + r.points.toLocaleString() + '</span>'
+            + '</div>';
+        });
+        box.innerHTML = html;
+        return;
+      }
+      if (!sb){ box.innerHTML = html; return; }
       var res = await sb.rpc("get_leaderboard", { p_limit: 10 });
       if (res.error || !res.data){ box.innerHTML = html; return; }
 
@@ -792,6 +1049,7 @@ a{color:inherit;text-decoration:none}
     /* runs once on load, and again every time auth state changes —
        i.e. right after a redirect back from X, or a magic-link click */
     async function afterAuth(){
+      if (!sb) return;
       var { data: { user } } = await sb.auth.getUser();
       if (!user) { renderLeaderboard(null); return; }
 
@@ -802,11 +1060,13 @@ a{color:inherit;text-decoration:none}
       var pendingConsentRaw = sessionStorage.getItem("apollo_pending_consent");
       var pendingConsent = pendingConsentRaw === null ? null : pendingConsentRaw === "1";
       var pendingEmail = sessionStorage.getItem("apollo_pending_marketing_email");
-      var justJoining = sessionStorage.getItem("apollo_just_joining") === "1";
+      var justJoining = sessionStorage.getItem("apollo_just_joining") === "1" ||
+                        localStorage.getItem("apollo_just_joining") === "1";
       sessionStorage.removeItem("apollo_pending_ref");
       sessionStorage.removeItem("apollo_pending_consent");
       sessionStorage.removeItem("apollo_pending_marketing_email");
       sessionStorage.removeItem("apollo_just_joining");
+      localStorage.removeItem("apollo_just_joining");
 
       /* idempotent — safe to call on every load, not just the first */
       await sb.rpc("join_whitelist", {
@@ -834,8 +1094,46 @@ a{color:inherit;text-decoration:none}
       if (justJoining) showShareModal();
     }
 
-    sb.auth.onAuthStateChange(function(_event, session){ if (session) afterAuth(); });
-    afterAuth();
+    if (sb){
+      sb.auth.onAuthStateChange(function(_event, session){ if (session) afterAuth(); });
+      afterAuth();
+    } else {
+      renderLeaderboard(null);
+    }
+
+    function demoCode(seed){
+      var clean = (seed || "APOLLO").split("@")[0].replace(/[^a-z0-9]/gi, "").toUpperCase();
+      return (clean.slice(0,8) || "APOLLO") + "-7K2M";
+    }
+
+    function demoPostClaimed(){
+      if (demoPostLocked) return true;
+      try { return localStorage.getItem("apollo_x_post_claimed") === "1"; }
+      catch (_err) { return false; }
+    }
+
+    function lockDemoPostClaim(){
+      demoPostLocked = true;
+      try { localStorage.setItem("apollo_x_post_claimed", "1"); }
+      catch (_err) {}
+    }
+
+    function completeDemoJoin(seed, returning){
+      myCode = demoCode(seed);
+      var usedReferral = !returning && !!refIn.value.trim();
+      var startingPoints = (usedReferral ? 150 : 100) + (demoPostClaimed() ? 300 : 0);
+      document.getElementById("rRank").textContent = "#742";
+      document.getElementById("rPts").textContent = startingPoints.toLocaleString();
+      document.getElementById("rCode").textContent = "apollo.finance/?ref=" + myCode;
+      document.getElementById("rRefs").textContent = "0";
+      card.classList.add("is-done");
+      updateIntentLink();
+      renderLeaderboard("demo-user");
+      setEmailButtons(false, returning ? "View" : "Join");
+      document.getElementById("btnX").disabled = false;
+      setXButtonLabel(returning ? "Continue with X" : "Connect X");
+      if (!returning) showShareModal();
+    }
 
     /* connect X — this redirects the whole page away and back, so
        stash what the person entered first, or it's gone when they return.
@@ -843,36 +1141,117 @@ a{color:inherit;text-decoration:none}
        something in the subscribe-email field, or consent has nowhere
        to go. */
     document.getElementById("btnX").onclick = function(){
-      if (consentBox.checked && !consentEmail.value.trim()){
-        return say("Add an email above for updates, or uncheck that box.", "err");
+      if (DEMO_MODE){
+        var btn = this;
+        var returning = isReturning;
+        btn.disabled = true;
+        btn.textContent = "Connecting…";
+        say(returning ? "Finding your account…" : "Opening a secure connection to X…");
+        return setTimeout(function(){ say(""); completeDemoJoin("XUSER", returning); }, 850);
       }
+      if (!sb) return say("Whitelist signup isn't connected yet.", "err");
       sessionStorage.setItem("apollo_pending_ref", refIn.value.trim());
       sessionStorage.setItem("apollo_pending_consent", consentBox.checked ? "1" : "0");
       sessionStorage.setItem("apollo_pending_marketing_email", marketingEmailIfConsented() || "");
       sessionStorage.setItem("apollo_just_joining", "1");
-      sb.auth.signInWithOAuth({ provider: "x", options: { redirectTo: location.href.split("#")[0] } });
+      localStorage.setItem("apollo_just_joining", "1");
+      sb.auth.signInWithOAuth({ provider: "x", options: { redirectTo: authReturnUrl() } })
+        .then(function(res){ if (res.error) say(res.error.message, "err"); })
+        .catch(function(){ say("We couldn't connect to X. Please try again.", "err"); });
     };
 
     async function submitEmail(){
       var v = email.value.trim();
-      if (!v) return say("Enter an email to join.", "err");
+      if (!v) return say(isReturning ? "Enter the email you joined with." : "Enter an email to join.", "err");
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) return say("That address won't reach an inbox.", "err");
-      if (consentBox.checked && consentEmail.value.trim() && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(consentEmail.value.trim())){
-        return say("That update email doesn't look right.", "err");
+      if (DEMO_MODE){
+        var returning = isReturning;
+        setEmailButtons(true, returning ? "Checking…" : "Joining…");
+        say(returning ? "Finding your account…" : "Securing your place…");
+        return setTimeout(function(){ say(""); completeDemoJoin(v, returning); }, 800);
+      }
+      if (!sb) return say("Whitelist signup isn't connected yet.", "err");
+
+      var cooldownUntil = Number(localStorage.getItem("apollo_email_cooldown") || 0);
+      if (cooldownUntil > Date.now()){
+        var waitSeconds = Math.ceil((cooldownUntil - Date.now()) / 1000);
+        return say("A sign-in link was already requested. Try again in " + waitSeconds + " seconds.", "err");
       }
 
+      setEmailButtons(true, "Sending…");
       sessionStorage.setItem("apollo_pending_ref", refIn.value.trim());
       sessionStorage.setItem("apollo_pending_consent", consentBox.checked ? "1" : "0");
       sessionStorage.setItem("apollo_pending_marketing_email", (marketingEmailIfConsented() || v));
       sessionStorage.setItem("apollo_just_joining", "1");
+      localStorage.setItem("apollo_just_joining", "1");
       say("Sending a sign-in link…");
 
-      var res = await sb.auth.signInWithOtp({ email: v, options: { emailRedirectTo: location.href.split("#")[0] } });
-      say(res.error ? res.error.message : "Check your email for a link to finish joining.", res.error ? "err" : "ok");
+      try {
+        var res = await sb.auth.signInWithOtp({ email: v, options: { emailRedirectTo: authReturnUrl() } });
+        if (res.error){
+          if (res.error.status === 429 || /rate limit/i.test(res.error.message || "")){
+            startEmailCooldown(300, "Email sign-ins are temporarily busy. Please try again in a few minutes.", "err");
+          } else {
+            setEmailButtons(false, "Join");
+            say(res.error.message, "err");
+          }
+        } else {
+          startEmailCooldown(60, "Check your email for a link to finish joining.", "ok");
+        }
+      } catch (_err) {
+        setEmailButtons(false, "Join");
+        say("We couldn't connect. Please try again shortly.", "err");
+      }
     }
     document.getElementById("btnEmail").onclick = submitEmail;
     email.addEventListener("keydown", function(e){ if (e.key === "Enter") submitEmail(); });
     email.addEventListener("input", function(){ if (note.getAttribute("data-t") === "err") say(""); });
+
+    /* compact signup on the overview uses the same email/auth flow */
+    var homeEmail = document.getElementById("homeWlEmail"),
+        homeConsent = document.getElementById("homeWlConsent"),
+        emailButtons = [document.getElementById("btnEmail"),document.getElementById("homeWlJoin")],
+        cooldownTimer = null;
+
+    function setEmailButtons(disabled, label){
+      emailButtons.forEach(function(btn){
+        btn.disabled = disabled;
+        btn.textContent = (!disabled && btn.id === "homeWlJoin") ? "Join" : label;
+        btn.setAttribute("aria-busy", label === "Sending…" ? "true" : "false");
+      });
+    }
+    function startEmailCooldown(seconds, message, tone){
+      var until = Date.now() + seconds * 1000;
+      localStorage.setItem("apollo_email_cooldown", String(until));
+      say(message, tone);
+      clearInterval(cooldownTimer);
+      function tickCooldown(){
+        var left = Math.max(0, Math.ceil((until - Date.now()) / 1000));
+        if (!left){
+          clearInterval(cooldownTimer);
+          localStorage.removeItem("apollo_email_cooldown");
+          setEmailButtons(false, "Join");
+          return;
+        }
+        setEmailButtons(true, tone === "ok" ? "Sent" : "Wait " + Math.ceil(left / 60) + "m");
+      }
+      tickCooldown();
+      cooldownTimer = setInterval(tickCooldown, 1000);
+    }
+    function submitHomeEmail(){
+      setAuthMode("join");
+      email.value = homeEmail.value.trim();
+      consentBox.checked = homeConsent.checked;
+      submitEmail();
+    }
+    document.getElementById("homeWlJoin").onclick = submitHomeEmail;
+    homeEmail.addEventListener("keydown", function(e){ if (e.key === "Enter") submitHomeEmail(); });
+    document.getElementById("homeWlX").onclick = function(){
+      setAuthMode("join");
+      email.value = homeEmail.value.trim();
+      consentBox.checked = homeConsent.checked;
+      document.getElementById("btnX").click();
+    };
 
     /* copy referral link */
     document.getElementById("btnCopy").onclick = function(){
@@ -882,23 +1261,12 @@ a{color:inherit;text-decoration:none}
         .then(function(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = "Copy"; }, 1600); })
         .catch(function(){ btn.textContent = "Select & copy"; });
     };
-
-    /* set a custom referral code */
-    var editBox = document.getElementById("editCode"), custom = document.getElementById("customCode");
-    document.getElementById("btnCustom").onclick = function(){
-      editBox.style.display = editBox.style.display === "none" ? "flex" : "none";
-      if (editBox.style.display === "flex") custom.focus();
-    };
-    document.getElementById("btnSaveCode").onclick = async function(){
-      var v = custom.value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
-      if (v.length < 3) return say("Codes need at least 3 characters.", "err");
-      var res = await sb.rpc("claim_referral_code", { p_code: v });
-      if (res.error) return say(res.error.message, "err"); // e.g. "that code is already taken"
-      myCode = res.data;
-      document.getElementById("rCode").textContent = "apollo.finance/?ref=" + myCode;
-      updateIntentLink();
-      editBox.style.display = "none";
-      say("Referral code updated.", "ok");
+    document.getElementById("modalCopy").onclick = function(){
+      var text = "https://" + document.getElementById("modalRefCode").textContent;
+      var btn = this;
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+        .then(function(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = "Copy"; }, 1600); })
+        .catch(function(){ btn.textContent = "Select & copy"; });
     };
 
     /* share-to-earn: submit the URL, then hand it to the Edge Function
@@ -909,9 +1277,20 @@ a{color:inherit;text-decoration:none}
     var sharebox = document.getElementById("sharebox");
     var postNote = document.getElementById("postNote"), modalNote = document.getElementById("modalNote");
 
+    if (DEMO_MODE && demoPostClaimed()){
+      sharebox.classList.add("is-verified");
+      document.getElementById("shareModal").querySelector(".modal-card").classList.add("is-verified");
+    }
+
     async function attemptVerify(url){
       if (!/^https?:\/\/(x\.com|twitter\.com)\//.test(url)) {
         return { ok: false, msg: "Paste the link to your actual post on X." };
+      }
+      if (DEMO_MODE){
+        if (demoPostClaimed()) return { ok: false, msg: "An X post has already been submitted for this account." };
+        lockDemoPostClaim();
+        await new Promise(function(resolve){ setTimeout(resolve, 700); });
+        return { ok: true };
       }
       var sub = await sb.rpc("submit_post", { p_url: url });
       if (sub.error) return { ok: false, msg: sub.error.message }; // e.g. "already credited" / "awaiting review"
@@ -926,6 +1305,12 @@ a{color:inherit;text-decoration:none}
     async function onVerified(){
       sharebox.classList.add("is-verified");
       document.getElementById("shareModal").querySelector(".modal-card").classList.add("is-verified");
+      if (DEMO_MODE){
+        var current = Number(document.getElementById("rPts").textContent.replace(/,/g,"")) || 100;
+        document.getElementById("rPts").textContent = (current + 300).toLocaleString();
+        renderLeaderboard("demo-user");
+        return;
+      }
       var stats = await sb.rpc("get_my_stats");
       if (!stats.error && stats.data && stats.data.length){
         document.getElementById("rPts").textContent = stats.data[0].points.toLocaleString();
@@ -972,6 +1357,34 @@ a{color:inherit;text-decoration:none}
       if (e.key === "Escape" && shareModal.style.display !== "none") hideShareModal();
     });
 
+  })();
+
+  /* subtle pointer and scroll motion; skipped for reduced motion */
+  (function(){
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    document.querySelectorAll(".grid-head,.card,.home-wl,.closer,.wl,.lb").forEach(function(el){
+      el.classList.add("motion-reveal");
+    });
+    var reveal = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add("is-visible"); reveal.unobserve(entry.target); }
+      });
+    },{threshold:.12,rootMargin:"0px 0px -28px"});
+    document.querySelectorAll(".motion-reveal").forEach(function(el,i){
+      el.style.transitionDelay = Math.min(i % 4,3) * 70 + "ms";
+      reveal.observe(el);
+    });
+
+    document.querySelectorAll(".card .art").forEach(function(art){
+      art.addEventListener("pointermove", function(e){
+        var r = art.getBoundingClientRect();
+        var rx = ((e.clientY-r.top)/r.height-.5)*-4;
+        var ry = ((e.clientX-r.left)/r.width-.5)*5;
+        art.style.transform = "perspective(700px) rotateX("+rx+"deg) rotateY("+ry+"deg) scale(1.012)";
+      });
+      art.addEventListener("pointerleave", function(){ art.style.transform = ""; });
+    });
   })();
 
   /* countdown */
