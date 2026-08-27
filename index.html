@@ -196,7 +196,7 @@ a{color:inherit;text-decoration:none}
 
 
 /* whitelist — signup, points, referral */
-.wl-countdown{margin-top:clamp(28px,4vw,44px);border-radius:var(--r);background:var(--dark);
+.wl-countdown{margin-top:0;border-radius:var(--r);background:var(--dark);
   color:#fff;padding:22px clamp(22px,4vw,42px);display:flex;align-items:center;
   justify-content:space-between;gap:28px;box-shadow:0 18px 48px rgba(17,17,16,.09)}
 .wl-countdown-copy{min-width:0}
@@ -216,7 +216,7 @@ a{color:inherit;text-decoration:none}
 .wl h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4.4vw,44px);
   line-height:1.06;letter-spacing:-.02em;margin:18px 0 0;max-width:13ch}
 .wl h2 span{color:var(--lime)}
-.wl .lede{margin:16px 0 0;color:#9A9A96;max-width:38ch;font-size:14.5px}
+.wl .lede{margin:16px 0 0;color:#9A9A96;max-width:46ch;font-size:14.5px}
 .earn{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
 .earn li{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid #262624}
 .earn li:last-child{border-bottom:1px solid #262624}
@@ -328,6 +328,7 @@ a{color:inherit;text-decoration:none}
 .lb{margin-top:16px;border-radius:var(--r);background:var(--dark);color:#fff;
   padding:clamp(36px,6vw,60px) clamp(22px,5vw,56px) clamp(10px,2vw,20px)}
 .lb-head{text-align:center;margin-bottom:clamp(24px,4vw,40px)}
+.lb-head .eyebrow{color:var(--lime)}
 .lb-head h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(26px,4vw,40px);
   line-height:1.06;letter-spacing:-.02em;margin:16px 0 0}
 .lb-head h2 span{color:var(--lime)}
@@ -367,10 +368,11 @@ a{color:inherit;text-decoration:none}
 .modal-close:hover{background:#242422;color:#fff}
 .modal-card .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--dark-2);
   border-radius:999px;padding:7px 15px;font-size:12.5px;color:#D6D6D6}
-.modal-card h3{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(24px,4vw,32px);
-  line-height:1.1;letter-spacing:-.02em;margin:16px 0 0}
-.modal-card h3 span{color:var(--lime)}
-.modal-copy{margin:12px 0 0;color:#9A9A96;font-size:13.5px;line-height:1.5}
+.modal-card h3{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,42px);
+  line-height:1.02;letter-spacing:-.025em;margin:18px 0 0}
+.modal-card h3 .modal-title-main{display:block;color:#fff}
+.modal-card h3 em{display:block;margin-top:3px;color:var(--lime);font-weight:400;font-style:italic}
+.modal-copy{margin:16px auto 0;color:#9A9A96;font-size:13.5px;line-height:1.55;max-width:34ch}
 .modal-card .btn-x{width:100%;margin-top:22px;padding:14px}
 .modal-step{display:flex;align-items:center;gap:10px;margin:22px 0 10px;text-align:left;
   color:#D6D6D1;font-size:12.5px;font-weight:500}
@@ -395,6 +397,23 @@ a{color:inherit;text-decoration:none}
   color:#B8B8B3;font-size:12.5px;font-weight:500}
 .share-step:first-of-type{margin-top:0}
 .sharebox>.btn-x{margin-top:0}
+
+/* footer */
+.site-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;
+  margin-top:28px;padding:22px 4px 0;border-top:1px solid var(--line);color:var(--dim);
+  font-size:12.5px}
+.site-footer .footer-brand{font-family:Newsreader,Georgia,serif;text-transform:uppercase;
+  letter-spacing:.18em;color:var(--fg)}
+.site-footer nav{display:flex;align-items:center;gap:24px}
+.site-footer a,.site-footer button{border:0;background:none;padding:4px 0;color:var(--dim);
+  font:inherit;cursor:pointer;transition:color .18s ease}
+.site-footer a:hover,.site-footer button:hover{color:var(--fg)}
+.terms-card{text-align:left;max-width:390px}
+.terms-card .terms-kicker{margin:0;color:var(--lime);font-size:10.5px;letter-spacing:.17em;
+  text-transform:uppercase}
+.terms-card h2{margin:10px 0 0;font-family:Newsreader,Georgia,serif;font-size:32px;
+  line-height:1.05;font-weight:400}
+.terms-card .terms-copy{margin:14px 0 0;color:#9A9A96;font-size:13.5px;line-height:1.55}
 
 /* conversion and visual polish */
 body{background:
@@ -426,15 +445,10 @@ body{background:
 .card h3{margin-top:18px}
 .closer{box-shadow:0 24px 65px rgba(17,17,16,.10)}
 
-/* Keep the signup action above the point mechanics on narrow screens. */
-.wl{grid-template-areas:"eyebrow card" "title card" "lede card" "earn card";
-  grid-template-rows:auto auto auto 1fr;box-shadow:0 24px 65px rgba(17,17,16,.12)}
-.wl>div:first-child{display:contents}
-.wl>div:first-child>.eyebrow{grid-area:eyebrow;justify-self:start}
-.wl>div:first-child>h2{grid-area:title}
-.wl>div:first-child>.lede{grid-area:lede}
-.wl>div:first-child>.earn{grid-area:earn}
-.wl>.wlcard{grid-area:card;align-self:center}
+/* Keep the desktop copy as one cohesive block. */
+.wl{box-shadow:0 24px 65px rgba(17,17,16,.12)}
+.wl>div:first-child{display:block}
+.wl>.wlcard{align-self:center}
 .wlcard{box-shadow:0 24px 55px rgba(0,0,0,.24);transition:border-color .2s ease,transform .25s ease}
 .wlcard:focus-within{border-color:#44443d;transform:translateY(-2px)}
 .wlcard.attention{animation:cardAttention 1.1s ease}
@@ -475,6 +489,12 @@ body{background:
   .home-wl-copy p{width:100%}
   .wl{grid-template-areas:"eyebrow" "title" "lede" "card" "earn";
     grid-template-columns:1fr;grid-template-rows:auto;gap:0}
+  .wl>div:first-child{display:contents}
+  .wl>div:first-child>.eyebrow{grid-area:eyebrow;justify-self:start}
+  .wl>div:first-child>h2{grid-area:title}
+  .wl>div:first-child>.lede{grid-area:lede}
+  .wl>div:first-child>.earn{grid-area:earn}
+  .wl>.wlcard{grid-area:card}
   .wl>.wlcard{margin-top:28px}
   .wl .earn{margin-top:32px}
 }
@@ -498,7 +518,7 @@ body{background:
   .card .art{height:228px}
   .card:hover{transform:none}
   .closer{margin-top:48px}
-  .wl-countdown{margin-top:18px;padding:20px;gap:18px}
+  .wl-countdown{margin-top:0;padding:20px;gap:18px}
   .wl-countdown-copy b{font-size:12px}
   .wl-countdown .clock{gap:14px}
   .wl-countdown .clock b{font-size:21px}
@@ -514,6 +534,8 @@ body{background:
   .lbrow{grid-template-columns:34px minmax(0,1fr) 64px 64px;gap:7px;font-size:12.5px}
   .consent .txt{font-size:12px;line-height:1.45}
   .modal-card{max-height:calc(100dvh - 28px);overflow:auto}
+  .site-footer{margin-top:22px;padding-top:20px;align-items:flex-start}
+  .site-footer nav{gap:18px}
 }
 @media(max-width:360px){
   :root{--gut:14px}
@@ -558,8 +580,8 @@ body{background:
   <div class="modal-card">
     <button class="modal-close" id="shareModalClose" type="button" aria-label="Close">×</button>
     <span class="eyebrow"><span class="dot"></span> You're in</span>
-    <h3 id="shareModalTitle">You've joined the <span>whitelist!</span></h3>
-    <p class="modal-copy">Share your referral link on X. You earn 50 points when a friend joins with your code, and they earn 50 points too.</p>
+    <h3 id="shareModalTitle"><span class="modal-title-main">Invite friends.</span><em>Earn more.</em></h3>
+    <p class="modal-copy">Invite a friend. When they join with your code, you both get 50 points each.</p>
 
     <div class="modal-ref">
       <label>Your referral link</label>
@@ -585,6 +607,15 @@ body{background:
     <div class="postdone" id="modalDone"><span class="check" aria-hidden="true">✓</span> Verified — 300 points added.</div>
 
     <button class="modal-skip" id="shareModalSkip" type="button">I'll do this later</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle" style="display:none">
+  <div class="modal-card terms-card">
+    <button class="modal-close" id="termsClose" type="button" aria-label="Close terms and conditions">×</button>
+    <p class="terms-kicker">Apollo</p>
+    <h2 id="termsTitle">Terms &amp; Conditions</h2>
+    <p class="terms-copy">Full terms and conditions will be published before the mint opens.</p>
   </div>
 </div>
 
@@ -843,9 +874,9 @@ body{background:
 
     <section class="lb dots-dk" id="leaderboard">
       <div class="lb-head">
-        <span class="eyebrow"><span class="dot"></span> Leaderboard</span>
+        <span class="eyebrow">Leaderboard</span>
         <h2>Top of the <span>list.</span></h2>
-        <p class="lede">Ranked by points. Highest points mint first when the window opens.</p>
+        <p class="lede">More points equals better mint perks.</p>
       </div>
       <div class="lbtable" id="lbTable">
         <div class="lbrow lbhead"><span>Rank</span><span>Member</span><span>Referrals</span><span>Points</span></div>
@@ -856,6 +887,14 @@ body{background:
   </div>
 
   </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">Apollo</span>
+    <nav aria-label="Footer">
+      <a href="https://x.com/apollofinance" target="_blank" rel="noopener">X</a>
+      <button id="termsLink" type="button">Terms &amp; Conditions</button>
+    </nav>
+  </footer>
 
 </div>
 
@@ -930,6 +969,25 @@ body{background:
   document.getElementById("closeBanner").onclick = function(){
     document.getElementById("banner").remove();
   };
+
+  /* footer terms placeholder */
+  (function(){
+    var termsModal = document.getElementById("termsModal");
+    function closeTerms(){
+      termsModal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+    document.getElementById("termsLink").onclick = function(){
+      termsModal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      document.getElementById("termsClose").focus();
+    };
+    document.getElementById("termsClose").onclick = closeTerms;
+    termsModal.addEventListener("click", function(e){ if (e.target === termsModal) closeTerms(); });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && termsModal.style.display !== "none") closeTerms();
+    });
+  })();
 
 
   /* ── whitelist interaction preview ── */
