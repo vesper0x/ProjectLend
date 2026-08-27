@@ -484,6 +484,15 @@ body{background:
 .card .art{transform-style:preserve-3d;will-change:transform}
 .card .art>*{transform:translateZ(12px)}
 
+/* Give dialogs more presence on desktop without changing the mobile layout. */
+@media(min-width:601px){
+  .modal-card{max-width:500px;padding:46px 42px 38px}
+  .modal-card h3{font-size:46px}
+  .modal-copy{font-size:14.5px;max-width:38ch}
+  .modal-close{top:17px;right:17px;width:34px;height:34px}
+  .terms-card{max-width:460px}
+}
+
 @media(max-width:900px){
   .home-wl{grid-template-columns:1fr;gap:18px}
   .home-wl-copy p{width:100%}
@@ -551,6 +560,7 @@ body{background:
   .earn b{min-width:94px;font-size:17px}
   .earn span{font-size:12.5px}
 }
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -1046,7 +1056,7 @@ body{background:
     /* Keep both referral-sharing surfaces in sync. */
     function updateIntentLink(){
       var link = "https://apollo.finance/?ref=" + myCode;
-      var text = "Apollo is bringing lending onchain for tokenized stocks on Robinhood Chain. Whitelist is open — " + link;
+      var text = "Apollo is building a lending market for tokenized stocks on Robinhood Chain.\n\nThey just opened the whitelist for their upcoming NFT sale.\n\nUse my referral link to get 50 points and move up the leaderboard: " + link;
       var href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
       document.getElementById("btnIntent").href = href;
       document.getElementById("modalIntent").href = href;
